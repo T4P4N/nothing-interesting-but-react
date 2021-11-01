@@ -7,7 +7,7 @@ const list = [
     url: 'https://reactjs.org',
     author: 'Jordan Walke',
     point: 5,
-    objectID: 1,
+    objectID: 0,
   },
 
   {
@@ -15,19 +15,19 @@ const list = [
     url: 'https://reactjs.org',
     author: 'Dan Abramov, Andrew Clark',
     point: 5,
-    objectID: 2,
+    objectID: 1,
   },
 ];
 
 function List() {
   return list.map((item) => {
     return (
-      <div key="{item.objectID}">
-        <span>
+      <div className="react-eco" key={item.objectID}>
+        <p>
           <a href="{item.url}">{item.title}</a>
-        </span>
-        <span>{item.author}</span>
-        <span>{item.point}</span>
+        </p>
+        <p>{item.author}</p>
+        <p>{item.point}</p>
       </div>
     );
   });
@@ -37,7 +37,7 @@ export default function App() {
   return (
     <div>
       <h1>My hacker stories</h1>
-      <br></br>
+      <hr />
       <List />
     </div>
   );
