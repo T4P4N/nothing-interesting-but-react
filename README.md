@@ -1,3 +1,1 @@
-# react-jeydty
-
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/react-jeydty)
+# Trying to learn react
