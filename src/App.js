@@ -108,3 +108,5 @@ const Search = (props) => {
 };
 
 export default App1;
+
+// Lifting state in react (44)
