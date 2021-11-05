@@ -33,12 +33,78 @@ function List() {
   });
 }
 
-export default function App() {
+const App1 = () => {
+  const stories = [];
+
+  const handleSearch = (event) => {
+    // C
+    console.log(event.target.value);
+  };
+
+  // less readable version without array destructuring
+  // const searchTermState = React.useState('');
+
+  // const searchTerm = searchTermState[0];
+  // const setSearchTerm = searchTermState[1];
+
   return (
     <div>
-      <h1>My hacker stories</h1>
+      <h1>My hacker news stories</h1>
+      <Search onSearch={handleSearch} />
       <hr />
-      <List />
+
+      <List list={stories} />
     </div>
   );
-}
+};
+
+// // Basic array definition
+// const list = ['a', 'b'];
+
+// // no array destructuring
+// const itemOne = list[0];
+// const itemTwo = list[1];
+
+// // Array destructuring
+// const [firstItem, secondItem] = list;
+
+// function getAlphabet() {
+//   return [a, b];
+// }
+
+// // no array destructuring
+// const itemOne = getAlphabet()[0];
+// const itemtwo = getAlphabet()[1];
+
+// // Array destructuring
+// const [firstItem, secondItem] = getAlphabet();
+
+// Array destructuring makes code readable
+
+// Callback handlers in JSX
+
+// creating standalone search Component
+
+const Search = (props) => {
+  const [searchTerm, setSearchTerm] = React.useState('');
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // B
+  props.onSearch(event);
+
+  return (
+    <div>
+      <label htmlFor="search">Search: </label>
+      <input type="text" id="search" onChange={handleChange} />
+
+      <p>
+        Searching for: <strong>{searchTerm}</strong>
+      </p>
+    </div>
+  );
+};
+
+export default App1;
