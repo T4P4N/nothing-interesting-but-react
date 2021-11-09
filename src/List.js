@@ -19,16 +19,7 @@ const list = [
   },
 ];
 
-function List() {
-  return list.map((item) => {
-    return (
-      <div className="react-eco" key={item.objectID}>
-        <p>
-          <a href="{item.url}">{item.title}</a>
-        </p>
-        <p>{item.author}</p>
-        <p>{item.point}</p>
-      </div>
-    );
-  });
-}
+
+
+
+
