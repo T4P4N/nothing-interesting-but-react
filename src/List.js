@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-const list = [
+const stuff = [
   {
     title: 'react',
     url: 'https://reactjs.org',
@@ -19,7 +19,19 @@ const list = [
   },
 ];
 
+const List = ({ stuff }) =>
+  stuff.map((item) => <Item key={item.objectID} {...item} />);
 
+// no need for return statement when using parenthesis
+const Item = ({ key, title, url, author, points }) => (
+  <div>
+    <span>
+      <a href={url}>{title}</a>
+    </span>
+    <span>{author}</span>
+    <span>{points}</span>
+    <span>{key}</span>
+  </div>
+);
 
-
-
+export default List;

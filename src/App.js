@@ -39,7 +39,7 @@ const App = () => {
       <Search onSearch={handleSearch} st={searchTerm} />
       <hr />
 
-      <List list={filteredWords} />
+      <List />
     </div>
   );
 };
