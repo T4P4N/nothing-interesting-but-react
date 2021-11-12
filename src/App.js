@@ -4,13 +4,29 @@ import Search from './Search';
 import List from './List';
 
 const App = () => {
+  // const [searchTerm, setSearchTerm] =
+
   const stories = [];
 
-  const [searchTerm, setSearchTerm] = React.useState('');
+  const [searchTerm, setSearchTerm] = React.useState(
+    localStorage.getItem('search') || 'React'
+  );
+
+  // useEffect Hook in Action Here.
+
+  React.useEffect(() => {
+    localStorage.setItem('search', searchTerm, [searchTerm]);
+
+    const handleSearch = (event) => {
+      setSearchTerm(event.target.value);
+    };
+  });
 
   const handleSearch = (event) => {
     console.log(event.target.value);
     setSearchTerm(event.target.value);
+
+    localStorage.setItem('search', event.target.value);
   };
 
   const searchedStories = stories.filter(function (story) {
@@ -45,5 +61,4 @@ const App = () => {
 };
 
 export default App;
-
-// Lifting state in react (44)
+// React Side-Effects

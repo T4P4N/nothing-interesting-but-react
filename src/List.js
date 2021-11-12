@@ -19,18 +19,26 @@ const stuff = [
   },
 ];
 
-const List = ({ stuff }) =>
-  stuff.map((item) => <Item key={item.objectID} {...item} />);
+localStorage.setItem('data', JSON.stringify(stuff));
+
+const List = () => {
+  const [data, setData] = React.useState([]);
+  React.useEffect(() => {
+    let d = localStorage.getItem('data');
+    let c = JSON.parse(d);
+  }, []);
+  return data.map((item) => <Item key={item.objectID} {...item} />);
+};
 
 // no need for return statement when using parenthesis
-const Item = ({ key, title, url, author, points }) => (
+const Item = ({ item }) => (
   <div>
     <span>
-      <a href={url}>{title}</a>
+      <a href={item.url}>{item.title}</a>
     </span>
-    <span>{author}</span>
-    <span>{points}</span>
-    <span>{key}</span>
+    <span>{item.author}</span>
+    <span>{item.points}</span>
+    <span>{item.key}</span>
   </div>
 );
 
