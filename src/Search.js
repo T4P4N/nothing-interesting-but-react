@@ -11,7 +11,7 @@ const Search = (props) => {
       <input type="text" id="search" onChange={onSearch} value={search} />
 
       <p>
-        Searching for: <strong>{props.st}</strong>
+        {props.hel} Searching for: <strong>{props.st}</strong>
       </p>
     </div>
   );
