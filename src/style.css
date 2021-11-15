@@ -51,5 +51,12 @@ input {
 }
 
 .main-head {
+  margin-top: 1%;
+  margin-bottom: 1%;
   font-size: 2rem;
+  background-color: rgb(19, 19, 19);
+  /* border-radius: 10px; */
+  width: 100%;
+  text-align: center;
+  padding: 10px 0px;
 }
