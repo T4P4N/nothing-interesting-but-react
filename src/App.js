@@ -87,9 +87,18 @@ const App = () => {
   return (
     <div className="container">
       <h1 className="main-head">My hacker news stories</h1>
-      <Search onSearch={handleSearch} st={searchTerm} hel={handle_try2} />
-      <hr />
+      {/* <Search onSearch={handleSearch} st={searchTerm} hel={handle_try2} /> */}
 
+      <InputWithLabel
+        id="search"
+        value={searchTerm}
+        onInputChange={handleSearch}
+        type="text"
+      >
+        <strong>Search: </strong>
+        <Text str="Text component for excercise :)" />
+      </InputWithLabel>
+      <br />
       <List />
     </div>
   );
@@ -97,3 +106,13 @@ const App = () => {
 
 export default App;
 // React Side-Effects
+
+const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
+  <>
+    <label htmlFor="{id}">{children}</label>
+    &nbsp;
+    <input id={id} type={type} value={value} onChange={onInputChange} />
+  </>
+);
+
+const Text = ({ str }) => <p>{str}</p>;
