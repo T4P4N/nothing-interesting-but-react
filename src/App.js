@@ -3,6 +3,24 @@ import './style.css';
 import Search from './Search';
 import List from './List';
 
+const data = [
+  {
+    title: 'react',
+    url: 'https://reactjs.org',
+    author: 'Jordan Walke',
+    points: 5,
+    objectID: 0,
+  },
+
+  {
+    title: 'redux',
+    url: 'https://reactjs.org',
+    author: 'Dan Abramov, Andrew Clark',
+    points: 5,
+    objectID: 1,
+  },
+];
+
 // Custom Hook
 
 const useSemipersistentState = (key, initalState) => {
@@ -99,7 +117,7 @@ const App = () => {
         <Text str="Text component for excercise :)" />
       </InputWithLabel>
       <br />
-      <List />
+      <List data={data} idx={data.objectID} />
     </div>
   );
 };

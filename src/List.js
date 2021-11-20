@@ -1,45 +1,25 @@
 import React from 'react';
 import './style.css';
 
-const stuff = [
-  {
-    title: 'react',
-    url: 'https://reactjs.org',
-    author: 'Jordan Walke',
-    point: 5,
-    objectID: 0,
-  },
-
-  {
-    title: 'redux',
-    url: 'https://reactjs.org',
-    author: 'Dan Abramov, Andrew Clark',
-    point: 5,
-    objectID: 1,
-  },
-];
-
-localStorage.setItem('data', JSON.stringify(stuff));
-
-const List = () => {
-  const [data, setData] = React.useState([]);
-  React.useEffect(() => {
-    let d = localStorage.getItem('data');
-    let c = JSON.parse(d);
-  }, []);
-  return data.map((item) => <Item key={item.objectID} {...item} />);
+const Item = ({ item }) => {
+  // console.log(item);
+  return (
+    <>
+      <table>
+        <th>Title</th>
+        <td>{item.title + '  '} </td>
+        <th>Author</th>
+        <td>{item.author + '  '} </td>
+        <th>Points</th>
+        <td>{item.points + '  '} </td>
+      </table>
+    </>
+  );
 };
 
-// no need for return statement when using parenthesis
-const Item = ({ item }) => (
-  <div>
-    <span>
-      <a href={item.url}>{item.title}</a>
-    </span>
-    <span>{item.author}</span>
-    <span>{item.points}</span>
-    <span>{item.key}</span>
-  </div>
-);
+const List = ({ data, idx }) => {
+  // const [data, setData] = React.useState();
+  return data.map((items) => <Item key={idx} item={items} />);
+};
 
 export default List;
