@@ -2,6 +2,7 @@ import React from 'react';
 import './style.css';
 import Search from './Search';
 import List from './List';
+import TAPP from './ListTable';
 
 const data = [
   {
@@ -118,6 +119,7 @@ const App = () => {
       </InputWithLabel>
       <br />
       <List data={data} idx={data.objectID} />
+      <TAPP />
     </div>
   );
 };

@@ -5,14 +5,10 @@ const Item = ({ item }) => {
   // console.log(item);
   return (
     <>
-      <table>
-        <th>Title</th>
-        <td>{item.title + '  '} </td>
-        <th>Author</th>
-        <td>{item.author + '  '} </td>
-        <th>Points</th>
-        <td>{item.points + '  '} </td>
-      </table>
+      <td>{item.title}</td>
+      <td>{item.author}</td>
+      <td>{item.points}</td>
+      <td>{item.objectID}</td>
     </>
   );
 };
