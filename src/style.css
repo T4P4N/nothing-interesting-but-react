@@ -60,3 +60,25 @@ input {
   text-align: center;
   padding: 10px 0px;
 }
+
+table {
+  border-collapse: collapse;
+}
+
+table th {
+  text-align: left;
+  background-color: rgba(0, 0, 0, 0.356);
+  color: rgb(228, 228, 228);
+  padding: 4px 10px 4px 8px;
+  font-weight: 600;
+}
+
+table td {
+  border: 2px solid rgb(108, 129, 136);
+  padding: 4px 8px;
+  text-align: center;
+}
+
+table tr:nth-child(odd) td {
+  background-color: rgba(51, 66, 70, 0.705);
+}

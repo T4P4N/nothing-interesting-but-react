@@ -6,7 +6,7 @@ import TAPP from './ListTable';
 
 const data = [
   {
-    title: 'react',
+    title: 'React',
     url: 'https://reactjs.org',
     author: 'Jordan Walke',
     points: 5,
@@ -14,9 +14,9 @@ const data = [
   },
 
   {
-    title: 'redux',
+    title: 'Redux',
     url: 'https://reactjs.org',
-    author: 'Dan Abramov, Andrew Clark',
+    author: 'Dan Abramov',
     points: 5,
     objectID: 1,
   },
@@ -50,7 +50,7 @@ const useSemipersistentState = (key, initalState) => {
 const App = () => {
   // const [searchTerm, setSearchTerm] =
 
-  const stories = [];
+  const [stories, setStories] = React.useState(data);
 
   // const [searchTerm, setSearchTerm] = React.useState(
   //   localStorage.getItem('search') || 'React'
@@ -85,6 +85,17 @@ const App = () => {
     return story.title.includes(searchTerm);
   });
 
+  const handleRemoveStory = (item) => {
+    console.log('->' + item.title);
+
+    const newStories = stories.filter(
+      (story) => item.objectID !== story.objectID
+    );
+
+    console.log('---> ' + newStories[0]);
+    setStories(newStories);
+  };
+
   // just for testing some
   let words = [
     'spray',
@@ -118,8 +129,20 @@ const App = () => {
         <Text str="Text component for excercise :)" />
       </InputWithLabel>
       <br />
-      <List data={data} idx={data.objectID} />
-      <TAPP />
+      <table>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Points</th>
+          <th>ID</th>
+        </tr>
+        <List
+          data={data}
+          idx={data.objectID}
+          onRemoveItem={handleRemoveStory}
+        />
+      </table>
+      {/* <TAPP /> */}
     </div>
   );
 };
@@ -136,3 +159,5 @@ const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
 );
 
 const Text = ({ str }) => <p>{str}</p>;
+
+// TODO: Fix Remove function
