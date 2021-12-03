@@ -4,7 +4,7 @@ import Search from './Search';
 import List from './List';
 import TAPP from './ListTable';
 
-const data = [
+const initialData = [
   {
     title: 'React',
     url: 'https://reactjs.org',
@@ -30,6 +30,11 @@ const data = [
   },
 ];
 
+// Async stories
+const getAsyncStories = () =>
+  new Promise((resolve) =>
+    setTimeout(() => resolve({ data: { stories: initialData } }), 5000)
+  );
 // Custom Hook
 
 const useSemipersistentState = (key, initalState) => {
@@ -58,7 +63,14 @@ const useSemipersistentState = (key, initalState) => {
 const App = () => {
   // const [searchTerm, setSearchTerm] =
 
-  const [stories, setStories] = React.useState(data);
+  const [stories, setStories] = React.useState([]);
+
+  React.useEffect(() => {
+    getAsyncStories().then((result) => {
+      // console.log(result);
+      setStories(result.data.stories);
+    }, []);
+  });
 
   // const [searchTerm, setSearchTerm] = React.useState(
   //   localStorage.getItem('search') || 'React'
@@ -94,7 +106,7 @@ const App = () => {
   });
 
   const handleRemoveStory = (item) => {
-    console.log('->' + item.title);
+    console.log('Target -> ' + item.title);
 
     const newStories = stories.filter(
       (story) => item.objectID !== story.objectID
@@ -143,15 +155,11 @@ const App = () => {
             <th>Title</th>
             <th>Author</th>
             <th>Points</th>
-            <th>ID</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          <List
-            data={stories}
-            key={data.objectID}
-            onRemoveItem={handleRemoveStory}
-          />
+          <List data={stories} onRemoveItem={handleRemoveStory} />
         </tbody>
       </table>
       {/* <TAPP /> */}
@@ -172,4 +180,4 @@ const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
 
 const Text = ({ str }) => <p>{str}</p>;
 
-// TODO: Fix Remove function
+// Start of Async pg no. 86!
