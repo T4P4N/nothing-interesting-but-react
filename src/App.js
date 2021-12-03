@@ -17,8 +17,16 @@ const data = [
     title: 'Redux',
     url: 'https://reactjs.org',
     author: 'Dan Abramov',
-    points: 5,
+    points: 6,
     objectID: 1,
+  },
+
+  {
+    title: 'MobX',
+    url: 'https://www.mobxjs.com',
+    author: 'Michel',
+    points: 3,
+    objectID: 2,
   },
 ];
 
@@ -92,7 +100,7 @@ const App = () => {
       (story) => item.objectID !== story.objectID
     );
 
-    newStories.forEach((item) => console.log(item.objectID));
+    newStories.forEach((item) => console.log('Left: ' + item.title));
     setStories(newStories);
   };
 
@@ -140,7 +148,7 @@ const App = () => {
         </thead>
         <tbody>
           <List
-            data={data}
+            data={stories}
             key={data.objectID}
             onRemoveItem={handleRemoveStory}
           />
