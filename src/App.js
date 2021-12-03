@@ -2,7 +2,6 @@ import React from 'react';
 import './style.css';
 import Search from './Search';
 import List from './List';
-import TAPP from './ListTable';
 
 const initialData = [
   {
@@ -35,8 +34,8 @@ const getAsyncStories = () =>
   new Promise((resolve) =>
     setTimeout(() => resolve({ data: { stories: initialData } }), 2000)
   );
-// Custom Hook
 
+// Custom Hook
 const useSemipersistentState = (key, initalState) => {
   // Adding reusablity
   const [value, setValue] = React.useState(
@@ -48,24 +47,12 @@ const useSemipersistentState = (key, initalState) => {
   });
 
   return [value, setValue];
-  // end reusablity
-  // const [searchTerm, setSearchTerm] = React.useState(
-  //   localStorage.getItem('search') || ''
-  // );
-
-  // React.useEffect(() => {
-  //   localStorage.setItem('search', searchTerm);
-  // }, [searchTerm]);
-
-  // return [searchTerm, setSearchTerm];
 };
 
 const App = () => {
-  // const [searchTerm, setSearchTerm] =
-
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const [stories, setStories] = React.useState([]);
+  const [stories, setStories] = React.useReducer(storiesReducer, []);
 
   const [isError, setIsError] = React.useState(false);
 
@@ -74,8 +61,10 @@ const App = () => {
 
     getAsyncStories()
       .then((result) => {
-        console.log(result);
-        setStories(result.data.stories);
+        dispatchStories({
+          type: 'SET_STORIES',
+          payload: result.data.stories,
+        });
         setIsLoading(false);
       })
       .catch((error) => {
@@ -84,19 +73,13 @@ const App = () => {
       });
   }, []);
 
-  // const [searchTerm, setSearchTerm] = React.useState(
-  //   localStorage.getItem('search') || 'React'
-  // );
-
   const defaultSearchTerm = 'Happiness in Small Things!';
-  // Custom Hook in Action
 
+  // Custom Hook In Use:
   const [searchTerm, setSearchTerm] = useSemipersistentState(
     'search',
     defaultSearchTerm
   );
-
-  // useEffect Hook in Action Here.
 
   React.useEffect(() => {
     localStorage.setItem('search', searchTerm, [searchTerm]);
@@ -106,6 +89,7 @@ const App = () => {
     };
   });
 
+  // Search
   const handleSearch = (event) => {
     console.log(event.target.value);
     setSearchTerm(event.target.value);
@@ -117,6 +101,7 @@ const App = () => {
     return story.title.includes(searchTerm);
   });
 
+  // Remove Story
   const handleRemoveStory = (item) => {
     console.log('Target -> ' + item.title);
 
@@ -125,41 +110,28 @@ const App = () => {
     );
 
     newStories.forEach((item) => console.log('Left: ' + item.title));
-    setStories(newStories);
+    dispatchStories({
+      type: 'SET_STORIES',
+      payload: result.data.stories,
+    });
   };
-
-  // just for testing some
-  let words = [
-    'spray',
-    'paint',
-    'limit',
-    'elite',
-    'exuberant',
-    'destruction',
-    'present',
-  ];
-
-  const filteredWords = words.filter((word) => {
-    return word.length > 5;
-    console.log('Here');
-  });
-
-  const [handle_try2, setTry2] = React.useState('');
 
   return (
     <div className="container">
       <h1 className="main-head">Reducers!</h1>
-      {/* <Search onSearch={handleSearch} st={searchTerm} hel={handle_try2} /> */}
 
-      <InputWithLabel
+      {/* <InputWithLabel
         id="search"
         value={searchTerm}
         onInputChange={handleSearch}
         type="text"
       >
-        <strong>Search: </strong>
-        <Text str="Text component for excercise :)" />
+        <h3>Search: </h3>
       </InputWithLabel>
+       */}
+
+      <Search />
+
       <br />
       {isError && <h2>Something went wrong!!!</h2>}
       {isLoading ? (
@@ -179,23 +151,29 @@ const App = () => {
           </tbody>
         </table>
       )}
-
-      {/* <TAPP /> */}
     </div>
   );
 };
 
 export default App;
-// React Side-Effects
 
-const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
-  <>
-    <label htmlFor="{id}">{children}</label>
-    &nbsp;
-    <input id={id} type={type} value={value} onChange={onInputChange} />
-  </>
-);
+const storiesReducer = (state, action) => {
+  if (action.type === 'SET_STORIES') {
+    return action.payload.then(console.log('ERRRR'));
+  } else {
+    console.log('ERRRR');
+    throw new Error();
+  }
+};
 
-const Text = ({ str }) => <p>{str}</p>;
+// const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
+//   <>
+//     <label htmlFor="{id}">{children}</label>
+//     &nbsp;
+//     <input id={id} type={type} value={value} onChange={onInputChange} />
+//   </>
+// );
+
+// const Text = ({ str }) => <p>{str}</p>;
 
 // Start of Use Reducer pg no. 92!
