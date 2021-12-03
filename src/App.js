@@ -67,15 +67,22 @@ const App = () => {
 
   const [stories, setStories] = React.useState([]);
 
-  React.useEffect(() => {
-    // setIsLoading(true);
+  const [isError, setIsError] = React.useState(false);
 
-    getAsyncStories().then((result) => {
-      console.log(result);
-      setStories(result.data.stories);
-      // setIsLoading(false);
-    });
-  });
+  React.useEffect(() => {
+    setIsLoading(true);
+
+    getAsyncStories()
+      .then((result) => {
+        console.log(result);
+        setStories(result.data.stories);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsError(true);
+        console.log(error);
+      });
+  }, []);
 
   // const [searchTerm, setSearchTerm] = React.useState(
   //   localStorage.getItem('search') || 'React'
@@ -141,7 +148,7 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1 className="main-head">My hacker news stories</h1>
+      <h1 className="main-head">Reducers!</h1>
       {/* <Search onSearch={handleSearch} st={searchTerm} hel={handle_try2} /> */}
 
       <InputWithLabel
@@ -154,7 +161,8 @@ const App = () => {
         <Text str="Text component for excercise :)" />
       </InputWithLabel>
       <br />
-      {/* {isLoading ? (
+      {isError && <h2>Something went wrong!!!</h2>}
+      {isLoading ? (
         <h2>Loading...</h2>
       ) : (
         <table>
@@ -170,7 +178,7 @@ const App = () => {
             <List data={stories} onRemoveItem={handleRemoveStory} />
           </tbody>
         </table>
-      )} */}
+      )}
 
       {/* <TAPP /> */}
     </div>
@@ -190,4 +198,4 @@ const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
 
 const Text = ({ str }) => <p>{str}</p>;
 
-// Start of Async pg no. 86!
+// Start of Use Reducer pg no. 92!
