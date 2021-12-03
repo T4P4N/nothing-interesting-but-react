@@ -5,6 +5,7 @@ body {
   padding: 0px;
   background-color: rgb(41, 41, 41);
   color: rgb(180, 215, 255);
+  overflow-x: hidden;
   font-family: 'Exo 2', sans-serif;
 }
 

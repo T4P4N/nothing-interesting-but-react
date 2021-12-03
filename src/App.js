@@ -92,7 +92,7 @@ const App = () => {
       (story) => item.objectID !== story.objectID
     );
 
-    console.log('---> ' + newStories[0]);
+    newStories.forEach((item) => console.log(item.objectID));
     setStories(newStories);
   };
 
@@ -130,17 +130,21 @@ const App = () => {
       </InputWithLabel>
       <br />
       <table>
-        <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Points</th>
-          <th>ID</th>
-        </tr>
-        <List
-          data={data}
-          idx={data.objectID}
-          onRemoveItem={handleRemoveStory}
-        />
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Points</th>
+            <th>ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <List
+            data={data}
+            key={data.objectID}
+            onRemoveItem={handleRemoveStory}
+          />
+        </tbody>
       </table>
       {/* <TAPP /> */}
     </div>

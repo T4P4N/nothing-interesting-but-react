@@ -6,7 +6,7 @@ const Item = ({ item, onRemoveItem }) => {
 
   const handleRemoveItem = () => {
     onRemoveItem(item);
-    console.log(item);
+    console.log('Removed --> ' + item.title);
   };
   return (
     <tr key={item.objectID}>
@@ -22,10 +22,10 @@ const Item = ({ item, onRemoveItem }) => {
   );
 };
 
-const List = ({ data, idx, onRemoveItem }) => {
+const List = ({ data, onRemoveItem }) => {
   // const [data, setData] = React.useState();
   return data.map((items) => (
-    <Item key={idx} item={items} onRemoveItem={onRemoveItem} />
+    <Item key={items.objectID} item={items} onRemoveItem={onRemoveItem} />
   ));
 };
 
