@@ -33,7 +33,7 @@ const initialData = [
 // Async stories
 const getAsyncStories = () =>
   new Promise((resolve) =>
-    setTimeout(() => resolve({ data: { stories: initialData } }), 5000)
+    setTimeout(() => resolve({ data: { stories: initialData } }), 2000)
   );
 // Custom Hook
 
@@ -63,13 +63,18 @@ const useSemipersistentState = (key, initalState) => {
 const App = () => {
   // const [searchTerm, setSearchTerm] =
 
+  const [isLoading, setIsLoading] = React.useState(false);
+
   const [stories, setStories] = React.useState([]);
 
   React.useEffect(() => {
+    // setIsLoading(true);
+
     getAsyncStories().then((result) => {
-      // console.log(result);
+      console.log(result);
       setStories(result.data.stories);
-    }, []);
+      // setIsLoading(false);
+    });
   });
 
   // const [searchTerm, setSearchTerm] = React.useState(
@@ -149,19 +154,24 @@ const App = () => {
         <Text str="Text component for excercise :)" />
       </InputWithLabel>
       <br />
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Points</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <List data={stories} onRemoveItem={handleRemoveStory} />
-        </tbody>
-      </table>
+      {/* {isLoading ? (
+        <h2>Loading...</h2>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Points</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <List data={stories} onRemoveItem={handleRemoveStory} />
+          </tbody>
+        </table>
+      )} */}
+
       {/* <TAPP /> */}
     </div>
   );
