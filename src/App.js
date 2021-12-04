@@ -50,9 +50,36 @@ const useSemipersistentState = (key, initalState) => {
 };
 
 const App = () => {
+  //                    //
+  //  STORIES REDUCER  //
+  //                  //
+
+  const storiesReducer = (state, action) => {
+    switch (action.type) {
+      case 'SET_STORIES': {
+        return action.payload;
+      }
+
+      case 'REMOVE_STORY': {
+        return state.filter(
+          (story) => action.payload.objectID !== story.objectID
+        );
+      }
+      default:
+        throw new Error();
+    }
+
+    // if (action.type === 'SET_STORIES') {
+    //   return action.payload.then(console.log('ERRRR'));
+    // } else {
+    //   console.log('ERRRR');
+    //   throw new Error();
+    // }
+  };
+
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const [stories, setStories] = React.useReducer(storiesReducer, []);
+  const [stories, dispatchStories] = React.useReducer(storiesReducer, []);
 
   const [isError, setIsError] = React.useState(false);
 
@@ -69,7 +96,7 @@ const App = () => {
       })
       .catch((error) => {
         setIsError(true);
-        console.log(error);
+        console.log('HERE: ' + error);
       });
   }, []);
 
@@ -110,9 +137,10 @@ const App = () => {
     );
 
     newStories.forEach((item) => console.log('Left: ' + item.title));
+
     dispatchStories({
-      type: 'SET_STORIES',
-      payload: result.data.stories,
+      type: 'REMOVE_STORY',
+      payload: item,
     });
   };
 
@@ -156,15 +184,6 @@ const App = () => {
 };
 
 export default App;
-
-const storiesReducer = (state, action) => {
-  if (action.type === 'SET_STORIES') {
-    return action.payload.then(console.log('ERRRR'));
-  } else {
-    console.log('ERRRR');
-    throw new Error();
-  }
-};
 
 // const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
 //   <>
