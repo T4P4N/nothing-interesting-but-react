@@ -31,9 +31,10 @@ const initialData = [
 
 // Async stories
 const getAsyncStories = () =>
-  new Promise((resolve, reject) =>
-    setTimeout(() => reject({ data: { stories: initialData } }), 2000)
-  );
+  // new Promise((resolve) =>
+  //   setTimeout(() => resolve({ data: { stories: initialData } }), 2000)
+  // );
+  new Promise((resolve, reject) => setTimeout(reject, 2000));
 
 // Custom Hook
 const useSemipersistentState = (key, initalState) => {
@@ -79,14 +80,14 @@ const App = () => {
         };
       }
       // Page no. 99
-      case 'SET_STORIES': {
-        return action.payload;
-      }
+      // case 'SET_STORIES': {
+      //   return action.payload;
+      // }
 
       case 'REMOVE_STORY': {
         return {
           ...state,
-          datat: state.data.filter(
+          data: state.data.filter(
             (story) => action.payload.objectID !== story.objectID
           ),
         };
@@ -156,7 +157,7 @@ const App = () => {
     localStorage.setItem('search', event.target.value);
   };
 
-  const searchedStories = stories.filter(function (story) {
+  const searchedStories = stories.data.filter(function (story) {
     return story.title.includes(searchTerm);
   });
 
@@ -164,7 +165,7 @@ const App = () => {
   const handleRemoveStory = (item) => {
     console.log('Target -> ' + item.title);
 
-    const newStories = stories.filter(
+    const newStories = stories.data.filter(
       (story) => item.objectID !== story.objectID
     );
 
@@ -193,8 +194,9 @@ const App = () => {
       <Search />
 
       <br />
-      {isError && <h2>Something went wrong!!!</h2>}
-      {isLoading ? (
+      {stories.isError && <h1>Something went wrong !!!</h1>}
+
+      {stories.isLoading ? (
         <h2>Loading...</h2>
       ) : (
         <table>
@@ -207,7 +209,7 @@ const App = () => {
             </tr>
           </thead>
           <tbody>
-            <List data={stories} onRemoveItem={handleRemoveStory} />
+            <List data={stories.data} onRemoveItem={handleRemoveStory} />
           </tbody>
         </table>
       )}
