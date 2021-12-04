@@ -179,7 +179,7 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1 className="main-head">Reducers!</h1>
+      <h1 className="main-head">DATA FETCHING !!!</h1>
 
       {/* <InputWithLabel
         id="search"
