@@ -29,6 +29,8 @@ const initialData = [
   },
 ];
 
+const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
+
 // Async stories
 const getAsyncStories = () =>
   new Promise((resolve) =>
@@ -118,18 +120,22 @@ const App = () => {
     setIsLoading(true);
 
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
-    getAsyncStories()
+
+    //
+    // Get data from
+    // api using fetch
+    //
+
+    fetch(`${API_ENDPOINT}react`)
+      .then((response) => response.json())
       .then((result) => {
         dispatchStories({
           type: 'STORIES_FETCH_SUCESS',
-          payload: result.data.stories,
+          payload: result.hits,
         });
-        setIsLoading(false);
       })
       .catch((error) => {
         dispatchStories({ type: 'STORIES_FETCH_FAILURE' });
-        // setIsError(true);
-        // console.log('HERE: ' + error);
       });
   }, []);
 
