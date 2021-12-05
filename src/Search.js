@@ -3,7 +3,7 @@ import './style.css';
 
 const Search = (props) => {
   // destructuring in practice
-  const { search, onSearch } = props;
+  const { search, onSearch, st } = props;
 
   return (
     <>

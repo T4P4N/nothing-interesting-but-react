@@ -52,7 +52,15 @@ const useSemipersistentState = (key, initalState) => {
   return [value, setValue];
 };
 
+// APPPP
+
 const App = () => {
+  // Custom Hook In Use:
+  const [searchTerm, setSearchTerm] = useSemipersistentState(
+    'search',
+    'defaultSearchTerm'
+  );
+
   //                    //
   //  STORIES REDUCER  //
   //                  //
@@ -81,10 +89,6 @@ const App = () => {
           isError: true,
         };
       }
-      // Page no. 99
-      // case 'SET_STORIES': {
-      //   return action.payload;
-      // }
 
       case 'REMOVE_STORY': {
         return {
@@ -97,13 +101,6 @@ const App = () => {
       default:
         throw new Error();
     }
-
-    // if (action.type === 'SET_STORIES') {
-    //   return action.payload.then(console.log('ERRRR'));
-    // } else {
-    //   console.log('ERRRR');
-    //   throw new Error();
-    // }
   };
 
   const [isLoading, setIsLoading] = React.useState(false);
@@ -117,7 +114,8 @@ const App = () => {
   });
 
   React.useEffect(() => {
-    setIsLoading(true);
+    // if (searchTerm === '') return;
+    if (!searchTerm) return;
 
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
 
@@ -126,7 +124,7 @@ const App = () => {
     // api using fetch
     //
 
-    fetch(`${API_ENDPOINT}react`)
+    fetch(`${API_ENDPOINT}${searchTerm}`)
       .then((response) => response.json())
       .then((result) => {
         dispatchStories({
@@ -137,15 +135,9 @@ const App = () => {
       .catch((error) => {
         dispatchStories({ type: 'STORIES_FETCH_FAILURE' });
       });
-  }, []);
+  }, [searchTerm]);
 
   const defaultSearchTerm = 'Happiness in Small Things!';
-
-  // Custom Hook In Use:
-  const [searchTerm, setSearchTerm] = useSemipersistentState(
-    'search',
-    defaultSearchTerm
-  );
 
   React.useEffect(() => {
     localStorage.setItem('search', searchTerm, [searchTerm]);
@@ -163,9 +155,9 @@ const App = () => {
     localStorage.setItem('search', event.target.value);
   };
 
-  const searchedStories = stories.data.filter(function (story) {
-    return story.title.includes(searchTerm);
-  });
+  // const searchedStories = stories.data.filter(function (story) {
+  //   return 'story.title.includes(searchTerm)';
+  // });
 
   // Remove Story
   const handleRemoveStory = (item) => {
@@ -186,7 +178,7 @@ const App = () => {
   return (
     <div className="container">
       <h1 className="main-head">DATA FETCHING !!!</h1>
-      {/* <InputWithLabel
+      <InputWithLabel
         id="search"
         value={searchTerm}
         onInputChange={handleSearch}
@@ -194,8 +186,8 @@ const App = () => {
       >
         <h3>Search: </h3>
       </InputWithLabel>
-       */}
-      <Search />
+
+      {/* <Search onSearch={handleSearch} st={searchTerm} /> */}
       <br />
       {stories.isError && <h2>Something went wrong !!!</h2>}
       {stories.isLoading && <h2>Loading...</h2>}
@@ -222,13 +214,13 @@ const App = () => {
 
 export default App;
 
-// const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
-//   <>
-//     <label htmlFor="{id}">{children}</label>
-//     &nbsp;
-//     <input id={id} type={type} value={value} onChange={onInputChange} />
-//   </>
-// );
+const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
+  <>
+    <label htmlFor="{id}">{children}</label>
+    &nbsp;
+    <input id={id} type={type} value={value} onChange={onInputChange} />
+  </>
+);
 
 // const Text = ({ str }) => <p>{str}</p>;
 
