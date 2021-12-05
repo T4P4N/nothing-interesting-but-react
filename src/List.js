@@ -10,7 +10,9 @@ const Item = ({ item, onRemoveItem }) => {
   };
   return (
     <tr key={item.objectID}>
-      <td>{item.title}</td>
+      <td>
+        <a href={item.url}>{item.title}</a>
+      </td>
       <td>{item.author}</td>
       <td>{item.points}</td>
       <td>

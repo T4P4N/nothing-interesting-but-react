@@ -58,7 +58,7 @@ const App = () => {
   // Custom Hook In Use:
   const [searchTerm, setSearchTerm] = useSemipersistentState(
     'search',
-    'defaultSearchTerm'
+    'Type Something'
   );
 
   //                    //
@@ -177,7 +177,7 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1 className="main-head">DATA FETCHING !!!</h1>
+      <h1 className="main-head">HACKER NEWS</h1>
       <InputWithLabel
         id="search"
         value={searchTerm}
@@ -217,7 +217,6 @@ export default App;
 const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
   <>
     <label htmlFor="{id}">{children}</label>
-    &nbsp;
     <input id={id} type={type} value={value} onChange={onInputChange} />
   </>
 );
