@@ -61,6 +61,15 @@ const App = () => {
     'Type Something'
   );
 
+  const [url, setUrl] = React.useState(`${API_ENDPOINT}${searchTerm}`);
+
+  const handleSearchInput = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = () => {
+    setUrl(`${API_ENDPOINT}${searchTerm}`);
+  };
   //                    //
   //  STORIES REDUCER  //
   //                  //
@@ -113,9 +122,10 @@ const App = () => {
     isError: false,
   });
 
-  React.useEffect(() => {
+  // Memoized Handler In React
+  const handleFetchStories = React.useCallback(() => {
     // if (searchTerm === '') return;
-    if (!searchTerm) return;
+    // if (!searchTerm) return;
 
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
 
@@ -124,7 +134,7 @@ const App = () => {
     // api using fetch
     //
 
-    fetch(`${API_ENDPOINT}${searchTerm}`)
+    fetch(url)
       .then((response) => response.json())
       .then((result) => {
         dispatchStories({
@@ -135,7 +145,11 @@ const App = () => {
       .catch((error) => {
         dispatchStories({ type: 'STORIES_FETCH_FAILURE' });
       });
-  }, [searchTerm]);
+  }, [url]);
+
+  React.useEffect(() => {
+    handleFetchStories();
+  }, [handleFetchStories]);
 
   const defaultSearchTerm = 'Happiness in Small Things!';
 
@@ -181,12 +195,14 @@ const App = () => {
       <InputWithLabel
         id="search"
         value={searchTerm}
-        onInputChange={handleSearch}
+        onInputChange={handleSearchInput}
         type="text"
       >
         <h3>Search: </h3>
       </InputWithLabel>
-
+      <button type="button" disabled={!searchTerm} onClick={handleSearchSubmit}>
+        Submit
+      </button>
       {/* <Search onSearch={handleSearch} st={searchTerm} /> */}
       <br />
       {stories.isError && <h2>Something went wrong !!!</h2>}

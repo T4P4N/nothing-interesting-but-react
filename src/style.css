@@ -85,3 +85,16 @@ table td {
 table tr:nth-child(odd) td {
   background-color: rgba(51, 66, 70, 0.705);
 }
+
+button {
+  background-color: rgba(180, 215, 255, 0.849);
+  margin-top: 10px;
+  border: 0;
+  color: rgb(0, 0, 0);
+  padding: 0.8em 1em;
+  border-radius: 10px;
+  font-size: medium;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+}
