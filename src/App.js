@@ -31,10 +31,10 @@ const initialData = [
 
 // Async stories
 const getAsyncStories = () =>
-  // new Promise((resolve) =>
-  //   setTimeout(() => resolve({ data: { stories: initialData } }), 2000)
-  // );
-  new Promise((resolve, reject) => setTimeout(reject, 2000));
+  new Promise((resolve) =>
+    setTimeout(() => resolve({ data: { stories: initialData } }), 2000)
+  );
+// new Promise((resolve, reject) => setTimeout(reject, 2000));
 
 // Custom Hook
 const useSemipersistentState = (key, initalState) => {
@@ -180,7 +180,6 @@ const App = () => {
   return (
     <div className="container">
       <h1 className="main-head">DATA FETCHING !!!</h1>
-
       {/* <InputWithLabel
         id="search"
         value={searchTerm}
@@ -190,15 +189,11 @@ const App = () => {
         <h3>Search: </h3>
       </InputWithLabel>
        */}
-
       <Search />
-
       <br />
-      {stories.isError && <h1>Something went wrong !!!</h1>}
-
-      {stories.isLoading ? (
-        <h2>Loading...</h2>
-      ) : (
+      {stories.isError && <h2>Something went wrong !!!</h2>}
+      {stories.isLoading && <h2>Loading...</h2>}
+      {!stories.isError & !stories.isLoading ? (
         <table>
           <thead>
             <tr>
@@ -212,6 +207,8 @@ const App = () => {
             <List data={stories.data} onRemoveItem={handleRemoveStory} />
           </tbody>
         </table>
+      ) : (
+        <></>
       )}
     </div>
   );
