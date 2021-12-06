@@ -68,7 +68,8 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
     setUrl(`${API_ENDPOINT}${searchTerm}`);
   };
   //                    //
@@ -124,29 +125,20 @@ const App = () => {
   });
 
   // Memoized Handler In React
-  const handleFetchStories = React.useCallback(() => {
-    // if (searchTerm === '') return;
-    // if (!searchTerm) return;
+  const handleFetchStories = React.useCallback(async () => {
+    dispatchStories({
+      type: 'STORIES_FETCH_INIT',
+    });
+    try {
+      const result = await axios.get(url);
 
-    dispatchStories({ type: 'STORIES_FETCH_INIT' });
-
-    //
-    // Get data from
-    // api using fetch
-    //
-
-    axios
-      .get(url)
-      // .then((response) => response.json())
-      .then((result) => {
-        dispatchStories({
-          type: 'STORIES_FETCH_SUCESS',
-          payload: result.data.hits,
-        });
-      })
-      .catch((error) => {
-        dispatchStories({ type: 'STORIES_FETCH_FAILURE' });
+      dispatchStories({
+        type: 'STORIES_FETCH_SUCESS',
+        payload: result.data.hits,
       });
+    } catch {
+      dispatchStories({ type: 'STORIES_FETCH_FAILURE' });
+    }
   }, [url]);
 
   React.useEffect(() => {
@@ -193,19 +185,12 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1 className="main-head">HACKER NEWS</h1>
-      <InputWithLabel
-        id="search"
-        value={searchTerm}
-        onInputChange={handleSearchInput}
-        type="text"
-      >
-        <h3>Search: </h3>
-      </InputWithLabel>
-      <button type="button" disabled={!searchTerm} onClick={handleSearchSubmit}>
-        Submit
-      </button>
-      {/* <Search onSearch={handleSearch} st={searchTerm} /> */}
+      <h1 className="main-head">React Legacy!!!</h1>
+      <SearchForm
+        searchTerm={searchTerm}
+        onSearchInput={handleSearchInput}
+        onSearchSubmit={handleSearchSubmit}
+      />
       <br />
       {stories.isError && <h2>Something went wrong !!!</h2>}
       {stories.isLoading && <h2>Loading...</h2>}
@@ -238,6 +223,24 @@ const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
     <input id={id} type={type} value={value} onChange={onInputChange} />
   </>
 );
+
+// Search Form Component
+const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit }) => (
+  <form onSubmit={onSearchSubmit}>
+    <InputWithLabel
+      id="search"
+      value={searchTerm}
+      isFocused
+      onInputChange={onSearchInput}
+    >
+      <h3>Search: </h3>
+    </InputWithLabel>
+    <button type="submit" disabled={!searchTerm}>
+      Submit
+    </button>
+  </form>
+);
+//
 
 // const Text = ({ str }) => <p>{str}</p>;
 

@@ -57,7 +57,7 @@ input {
 .main-head {
   margin-bottom: 1%;
   font-size: 2rem;
-  background-color: rgb(19, 19, 19);
+  background-color: rgb(21, 23, 26);
   /* border-radius: 10px; */
   width: 100%;
   text-align: center;
@@ -97,4 +97,5 @@ button {
   text-decoration: none;
   font-weight: bold;
   cursor: pointer;
+  margin-left: 10px;
 }
