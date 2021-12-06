@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import './style.css';
 import Search from './Search';
@@ -134,12 +135,13 @@ const App = () => {
     // api using fetch
     //
 
-    fetch(url)
-      .then((response) => response.json())
+    axios
+      .get(url)
+      // .then((response) => response.json())
       .then((result) => {
         dispatchStories({
           type: 'STORIES_FETCH_SUCESS',
-          payload: result.hits,
+          payload: result.data.hits,
         });
       })
       .catch((error) => {
@@ -214,7 +216,7 @@ const App = () => {
               <th>Title</th>
               <th>Author</th>
               <th>Points</th>
-              <th>Delete</th>
+              {/* <th>Delete</th> */}
             </tr>
           </thead>
           <tbody>

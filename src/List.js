@@ -15,11 +15,11 @@ const Item = ({ item, onRemoveItem }) => {
       </td>
       <td>{item.author}</td>
       <td>{item.points}</td>
-      <td>
+      {/* <td>
         <button type="button" onClick={handleRemoveItem}>
           X
         </button>
-      </td>
+      </td> */}
     </tr>
   );
 };
