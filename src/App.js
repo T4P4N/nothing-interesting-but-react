@@ -211,6 +211,8 @@ const App = () => {
       ) : (
         <></>
       )}
+      <hr />
+      <App1 />
     </div>
   );
 };
@@ -227,21 +229,62 @@ const InputWithLabel = ({ id, value, onInputChange, type, children }) => (
 // Search Form Component
 const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit }) => (
   <form onSubmit={onSearchSubmit}>
-    <InputWithLabel
+    <InputWithLabel1
       id="search"
       value={searchTerm}
       isFocused
       onInputChange={onSearchInput}
     >
       <h3>Search: </h3>
-    </InputWithLabel>
+    </InputWithLabel1>
     <button type="submit" disabled={!searchTerm}>
       Submit
     </button>
   </form>
 );
-//
 
-// const Text = ({ str }) => <p>{str}</p>;
+// Class Based Component //
 
-// Start of Use Reducer pg no. 92!
+class InputWithLabel1 extends React.Component {
+  render() {
+    const { id, value, type = 'text', onInputChange, children } = this.props;
+
+    return (
+      <>
+        <label htmlFor={id}>{children}</label>
+        &nbsp;
+        <input id={id} type={type} value={value} onChange={onInputChange} />
+      </>
+    );
+  }
+}
+
+// Class Component with State
+
+class App1 extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      name: '',
+    };
+  }
+
+  render() {
+    const { name } = this.state;
+
+    return (
+      <div>
+        <input
+          type="text"
+          placeholder="Enter Your Name!"
+          onChange={() => this.setState({ name: event.target.value })}
+        />
+        <p onClick={() => alert(`Hello, ${name} from Class Based Component!`)}>
+          click me
+        </p>
+        <hr />
+      </div>
+    );
+  }
+}
