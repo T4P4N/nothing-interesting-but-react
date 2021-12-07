@@ -185,7 +185,7 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1 className="main-head">React Legacy!!!</h1>
+      <h1 className="main-head">Imperative React!!!</h1>
       <SearchForm
         searchTerm={searchTerm}
         onSearchInput={handleSearchInput}
