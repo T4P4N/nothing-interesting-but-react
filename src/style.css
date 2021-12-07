@@ -12,6 +12,7 @@ body {
 h1,
 h2,
 h3,
+h4,
 p {
   margin: 0%;
   margin-top: 0em;
@@ -49,6 +50,10 @@ input {
   /* height: auto; */
 }
 
+input:focus {
+  outline: none;
+}
+
 .container {
   display: grid;
   place-items: center;
@@ -64,28 +69,6 @@ input {
   padding: 10px 0px;
 }
 
-table {
-  border-collapse: collapse;
-}
-
-table th {
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.356);
-  color: rgb(228, 228, 228);
-  padding: 4px 10px 4px 8px;
-  font-weight: 600;
-}
-
-table td {
-  border: 2px solid rgb(108, 129, 136);
-  padding: 4px 4px;
-  text-align: left;
-}
-
-table tr:nth-child(odd) td {
-  background-color: rgba(51, 66, 70, 0.705);
-}
-
 button {
   background-color: rgba(180, 215, 255, 0.849);
   margin-top: 10px;
@@ -98,4 +81,31 @@ button {
   font-weight: bold;
   cursor: pointer;
   margin-left: 10px;
+}
+
+.posts {
+  /* place-self: center; */
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  margin-bottom: 1em;
+  background-color: rgb(36, 36, 36);
+  padding: 0.8em;
+  border-radius: 10px;
+}
+
+h4.title {
+  font-size: large;
+  font-weight: 500;
+  margin-bottom: 0.2em;
+}
+
+p.author {
+  font-weight: 400;
+  margin-bottom: 0.2em;
+}
+
+p.points {
+  font-size: 12pt;
+  margin-bottom: 0.2em;
+  font-weight: 500;
 }

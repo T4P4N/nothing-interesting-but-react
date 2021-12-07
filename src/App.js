@@ -195,19 +195,9 @@ const App = () => {
       {stories.isError && <h2>Something went wrong !!!</h2>}
       {stories.isLoading && <h2>Loading...</h2>}
       {!stories.isError & !stories.isLoading ? (
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Points</th>
-              {/* <th>Delete</th> */}
-            </tr>
-          </thead>
-          <tbody>
-            <List data={stories.data} onRemoveItem={handleRemoveStory} />
-          </tbody>
-        </table>
+        <div className="post-container">
+          <List data={stories.data} onRemoveItem={handleRemoveStory} />
+        </div>
       ) : (
         <></>
       )}
@@ -280,11 +270,19 @@ class App1 extends React.Component {
           placeholder="Enter Your Name!"
           onChange={() => this.setState({ name: event.target.value })}
         />
-        <p onClick={() => alert(`Hello, ${name} from Class Based Component!`)}>
-          click me
+        <p
+          onClick={() => alert(`Hello, ${name}!!! from Class Based Component!`)}
+        >
+          Click me
         </p>
         <hr />
       </div>
     );
   }
 }
+
+//   Notes   //
+//   Learn more about useRef Hook        //
+//   Learn more about useCallback      //
+//   Learn more about eventhandlers in react        //
+//           //

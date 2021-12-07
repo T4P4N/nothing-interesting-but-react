@@ -9,18 +9,18 @@ const Item = ({ item, onRemoveItem }) => {
     console.log('Removed --> ' + item.title);
   };
   return (
-    <tr key={item.objectID}>
-      <td>
+    <div key={item.objectID} className="posts">
+      <h4 className="title">
         <a href={item.url}>{item.title}</a>
-      </td>
-      <td>{item.author}</td>
-      <td>{item.points}</td>
+      </h4>
+      <p className="author">by {item.author}</p>
+      <p className="points">^ {item.points}</p>
       {/* <td>
         <button type="button" onClick={handleRemoveItem}>
           X
         </button>
       </td> */}
-    </tr>
+    </div>
   );
 };
 
