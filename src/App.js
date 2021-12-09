@@ -4,7 +4,7 @@ import React from 'react';
 import './style.css';
 // import Search from './Search';
 import List from './List';
-import { Search } from 'react-feather';
+import { Search, Heart } from 'react-feather';
 
 const initialData = [
   {
@@ -202,7 +202,10 @@ const App = () => {
         <></>
       )}
       <hr />
-      <App1 />
+      <h3>
+        Made with <Heart size={15} /> by T4P4N
+        <br />
+      </h3>
     </div>
   );
 };
