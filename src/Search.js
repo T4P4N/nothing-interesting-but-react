@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.css';
+import { AiOutlineSearch } from 'react-icons/fa';
 
 const Search = (props) => {
   // destructuring in practice

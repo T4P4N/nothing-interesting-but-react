@@ -1,8 +1,11 @@
+import { FaBeer } from 'react-icons/fa';
 import axios from 'axios';
 import React from 'react';
 import './style.css';
 import Search from './Search';
 import List from './List';
+import { Camera } from 'react-feather';
+import { Activity } from 'feather-icons';
 
 const initialData = [
   {
@@ -228,10 +231,12 @@ const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit }) => (
       <h3>Search: </h3>
     </InputWithLabel1>
     <button type="submit" disabled={!searchTerm}>
-      Submit
+      <Camera />
     </button>
   </form>
 );
+
+// export default SearchForm;
 
 // Class Based Component //
 
