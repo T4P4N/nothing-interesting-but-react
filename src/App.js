@@ -2,10 +2,9 @@ import { FaBeer } from 'react-icons/fa';
 import axios from 'axios';
 import React from 'react';
 import './style.css';
-import Search from './Search';
+// import Search from './Search';
 import List from './List';
-import { Camera } from 'react-feather';
-import { Activity } from 'feather-icons';
+import { Search } from 'react-feather';
 
 const initialData = [
   {
@@ -60,10 +59,7 @@ const useSemipersistentState = (key, initalState) => {
 
 const App = () => {
   // Custom Hook In Use:
-  const [searchTerm, setSearchTerm] = useSemipersistentState(
-    'search',
-    'Type Something'
-  );
+  const [searchTerm, setSearchTerm] = useSemipersistentState('search', '');
 
   const [url, setUrl] = React.useState(`${API_ENDPOINT}${searchTerm}`);
 
@@ -188,7 +184,8 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1 className="main-head">Imperative React!!!</h1>
+      <h1 className="main-head">Hacker News</h1>
+      {/* Up next maybe hero icons!!! */}
       <SearchForm
         searchTerm={searchTerm}
         onSearchInput={handleSearchInput}
@@ -227,11 +224,9 @@ const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit }) => (
       value={searchTerm}
       isFocused
       onInputChange={onSearchInput}
-    >
-      <h3>Search: </h3>
-    </InputWithLabel1>
+    ></InputWithLabel1>
     <button type="submit" disabled={!searchTerm}>
-      <Camera />
+      <Search />
     </button>
   </form>
 );
@@ -242,13 +237,26 @@ const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit }) => (
 
 class InputWithLabel1 extends React.Component {
   render() {
-    const { id, value, type = 'text', onInputChange, children } = this.props;
+    const {
+      id,
+      value,
+      type = 'text',
+      onInputChange,
+      children,
+      placeholder,
+    } = this.props;
 
     return (
       <>
         <label htmlFor={id}>{children}</label>
         &nbsp;
-        <input id={id} type={type} value={value} onChange={onInputChange} />
+        <input
+          id={id}
+          type={type}
+          value={value}
+          onChange={onInputChange}
+          placeholder="Type Something "
+        />
       </>
     );
   }

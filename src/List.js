@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.css';
+import { ChevronUp, User } from 'react-feather';
 
 const Item = ({ item, onRemoveItem }) => {
   // console.log(item);
@@ -13,8 +14,12 @@ const Item = ({ item, onRemoveItem }) => {
       <h4 className="title">
         <a href={item.url}>{item.title}</a>
       </h4>
-      <p className="author">by {item.author}</p>
-      <p className="points">^ {item.points}</p>
+      <p className="author">
+        <User size={14} /> {item.author}
+      </p>
+      <p className="points">
+        <ChevronUp /> {item.points}
+      </p>
       {/* <td>
         <button type="button" onClick={handleRemoveItem}>
           X

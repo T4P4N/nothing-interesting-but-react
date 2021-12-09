@@ -3,7 +3,7 @@
 body {
   margin: 0px;
   padding: 0px;
-  background-color: rgb(41, 41, 41);
+  background-color: rgb(24, 24, 24);
   color: rgb(180, 215, 255);
   overflow-x: hidden;
   font-family: 'Exo 2', sans-serif;
@@ -70,17 +70,20 @@ input:focus {
 }
 
 button {
-  background-color: rgba(180, 215, 255, 0.849);
+  /* background-color: rgba(180, 215, 255, 0.925); */
   margin-top: 10px;
+  background-color: transparent;
+  /* text-align: center; */
+  /* align-content: center; */
   border: 0;
-  color: rgb(0, 0, 0);
-  padding: 0.8em 1em;
-  border-radius: 10px;
-  font-size: medium;
+  /* height: 50px; */
+  /* width: fit-content; */
+  color: rgb(180, 215, 255);
+  /* padding: 15px 15px; */
+  /* border-radius: 10px; */
   text-decoration: none;
-  font-weight: bold;
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
 .posts {
