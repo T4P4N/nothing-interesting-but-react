@@ -3,8 +3,6 @@ import './style.css';
 import { ChevronUp, User } from 'react-feather';
 
 const Item = ({ item, onRemoveItem }) => {
-  // console.log(item);
-
   const handleRemoveItem = () => {
     onRemoveItem(item);
     console.log('Removed --> ' + item.title);
@@ -29,11 +27,20 @@ const Item = ({ item, onRemoveItem }) => {
   );
 };
 
-const List = ({ data, onRemoveItem }) => {
+const List2 = ({ data, onRemoveItem }) => {
   // const [data, setData] = React.useState();
+  console.log('---> List');
   return data.map((items) => (
     <Item key={items.objectID} item={items} onRemoveItem={onRemoveItem} />
   ));
 };
+
+const List = React.memo(
+  ({ data, onRemoveItem }) =>
+    console.log('---> List') ||
+    data.map((items) => (
+      <Item key={items.objectID} item={items} onRemoveItem={onRemoveItem} />
+    ))
+);
 
 export default List;

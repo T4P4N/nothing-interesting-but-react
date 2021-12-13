@@ -1,36 +1,8 @@
-import { FaBeer } from 'react-icons/fa';
 import axios from 'axios';
 import React from 'react';
 import './style.css';
-// import Search from './Search';
 import List from './List';
 import { Search, Heart } from 'react-feather';
-
-const initialData = [
-  {
-    title: 'React',
-    url: 'https://reactjs.org',
-    author: 'Jordan Walke',
-    points: 5,
-    objectID: 0,
-  },
-
-  {
-    title: 'Redux',
-    url: 'https://reactjs.org',
-    author: 'Dan Abramov',
-    points: 6,
-    objectID: 1,
-  },
-
-  {
-    title: 'MobX',
-    url: 'https://www.mobxjs.com',
-    author: 'Michel',
-    points: 3,
-    objectID: 2,
-  },
-];
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
 
@@ -39,18 +11,23 @@ const getAsyncStories = () =>
   new Promise((resolve) =>
     setTimeout(() => resolve({ data: { stories: initialData } }), 2000)
   );
-// new Promise((resolve, reject) => setTimeout(reject, 2000));
 
 // Custom Hook
 const useSemipersistentState = (key, initalState) => {
+  const isMounted = React.useRef(false);
   // Adding reusablity
   const [value, setValue] = React.useState(
     localStorage.getItem('search') || initalState
   );
 
   React.useEffect(() => {
-    localStorage.setItem(key, value), [value, key];
-  });
+    if (!isMounted.current) {
+      isMounted.current = true;
+    } else {
+      // console.log('A');
+      localStorage.setItem(key, value), [value, key];
+    }
+  }, [value, key]);
 
   return [value, setValue];
 };
@@ -58,6 +35,7 @@ const useSemipersistentState = (key, initalState) => {
 // APPPP
 
 const App = () => {
+  console.log('---> App');
   // Custom Hook In Use:
   const [searchTerm, setSearchTerm] = useSemipersistentState('search', '');
 
@@ -193,7 +171,7 @@ const App = () => {
       />
       <br />
       {stories.isError && <h2>Something went wrong !!!</h2>}
-      {stories.isLoading && <h2>Loading...</h2>}
+      {stories.isLoading && <div className="lds-dual-ring"></div>}
       {!stories.isError & !stories.isLoading ? (
         <div className="post-container">
           <List data={stories.data} onRemoveItem={handleRemoveStory} />
@@ -201,8 +179,7 @@ const App = () => {
       ) : (
         <></>
       )}
-      <hr />
-      <h3>
+      <h3 className="footer">
         Made with <Heart size={15} /> by T4P4N
         <br />
       </h3>
@@ -229,7 +206,7 @@ const SearchForm = ({ searchTerm, onSearchInput, onSearchSubmit }) => (
       onInputChange={onSearchInput}
     ></InputWithLabel1>
     <button type="submit" disabled={!searchTerm}>
-      <Search />
+      <Search height="20px" width="20px" className="search-btn" />
     </button>
   </form>
 );
