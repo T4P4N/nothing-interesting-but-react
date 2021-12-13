@@ -131,8 +131,8 @@ p.points {
 .lds-dual-ring:after {
   content: ' ';
   display: block;
-  width: 64px;
-  height: 64px;
+  width: 50px;
+  height: 50px;
   margin: 8px;
   border-radius: 50%;
   border: 6px solid rgb(180, 215, 255);

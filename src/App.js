@@ -35,7 +35,6 @@ const useSemipersistentState = (key, initalState) => {
 // APPPP
 
 const App = () => {
-  console.log('---> App');
   // Custom Hook In Use:
   const [searchTerm, setSearchTerm] = useSemipersistentState('search', '');
 
@@ -145,20 +144,21 @@ const App = () => {
   // });
 
   // Remove Story
-  const handleRemoveStory = (item) => {
-    console.log('Target -> ' + item.title);
+  const handleRemoveStory = React.useCallback((item) => {
+    // console.log('Target -> ' + item.title);
 
-    const newStories = stories.data.filter(
-      (story) => item.objectID !== story.objectID
-    );
+    // const newStories = stories.data.filter(
+    //   (story) => item.objectID !== story.objectID
+    // );
 
-    newStories.forEach((item) => console.log('Left: ' + item.title));
+    // newStories.forEach((item) => console.log('Left: ' + item.title));
 
     dispatchStories({
       type: 'REMOVE_STORY',
       payload: item,
     });
-  };
+  }, []);
+  console.log('---> App');
 
   return (
     <div className="container">
