@@ -145,13 +145,13 @@ const App = () => {
 
   // Remove Story
   const handleRemoveStory = React.useCallback((item) => {
-    // console.log('Target -> ' + item.title);
+    console.log('Target -> ' + item.title);
 
-    // const newStories = stories.data.filter(
-    //   (story) => item.objectID !== story.objectID
-    // );
+    const newStories = stories.data.filter(
+      (story) => item.objectID !== story.objectID
+    );
 
-    // newStories.forEach((item) => console.log('Left: ' + item.title));
+    newStories.forEach((item) => console.log('Left: ' + item.title));
 
     dispatchStories({
       type: 'REMOVE_STORY',
@@ -160,9 +160,19 @@ const App = () => {
   }, []);
   console.log('---> App');
 
+  const getSumComments = (stories) => {
+    console.log('C');
+
+    return stories.data.reduce((res, val) => res + val.num_comments, 0);
+  };
+
+  const sumComments = React.useMemo(() => getSumComments(stories), [stories]);
+
   return (
     <div className="container">
       <h1 className="main-head">Hacker News</h1>
+
+      <h3>{sumComments}</h3>
       {/* Up next maybe hero icons!!! */}
       <SearchForm
         searchTerm={searchTerm}
