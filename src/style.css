@@ -24,19 +24,6 @@ a {
   text-decoration: none;
   color: inherit;
 }
-.react-eco {
-  display: grid;
-  place-items: center;
-  font-size: 1.2em;
-  font-weight: 300;
-  font-family: sans-serif;
-  color: rgb(255, 244, 180);
-}
-
-strong {
-  font-weight: 400;
-  color: azure;
-}
 
 input {
   background-color: rgb(45, 55, 66);
@@ -98,6 +85,9 @@ button {
 }
 
 h4.title {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
   font-size: large;
   font-weight: 500;
   margin-bottom: 0.2em;
@@ -150,4 +140,13 @@ p.points {
 
 .footer {
   margin: 2em;
+}
+
+.x-btn {
+  color: rgb(180, 215, 255);
+  transition: ease-in-out 100ms;
+}
+
+.x-btn:hover {
+  color: crimson;
 }
