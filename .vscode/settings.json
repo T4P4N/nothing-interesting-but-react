@@ -1,5 +1,5 @@
 {
-  // "editor.theme": "one-dark",
+  // "editor.theme": "vs-dark",
   /**
    * Render vertical lines at the specified columns.
    * Defaults to empty array.
@@ -408,7 +408,7 @@
   /**
    * The font family
    */
-  "editor.fontFamily": "'Cascadia Code', Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontFamily": "Cascadia code,  Menlo, Monaco, 'Courier New', monospace",
   /**
    * The font weight
    */
@@ -416,7 +416,7 @@
   /**
    * The font size
    */
-  "editor.fontSize": 15
+  "editor.fontSize": 14
   /**
    * The line height
    */
