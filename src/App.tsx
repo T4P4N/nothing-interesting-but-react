@@ -225,7 +225,7 @@ const InputWithLabel = ({
       inputRef.current.focus();
     }
   }, [isFocused]);
-
+  // To fix these swiggly lines i think we gotta setup tsconfig
   return (
     <>
       <label htmlFor={id}>{children}</label>
