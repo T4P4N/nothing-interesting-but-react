@@ -280,4 +280,6 @@ const Item = ({ item, onRemoveItem }: ItemProps) => {
     </div>
   );
 };
+
 export default App;
+export {SearchForm, List, Item, InputWithLabel}
