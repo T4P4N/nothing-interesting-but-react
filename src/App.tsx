@@ -1,9 +1,9 @@
-import React from 'react';
-import axios from 'axios';
-import { act } from 'react-dom/test-utils';
-import { ChevronUp, User, X, Search, Heart } from 'react-feather';
+import React from "react";
+import axios from "axios";
+import { act } from "react-dom/test-utils";
+import { ChevronUp, User, X, Search, Heart } from "react-feather";
 
-const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
+const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
 const useSemiPersistentState = (
   key: string,
@@ -38,20 +38,20 @@ type StoriesState = {
 };
 
 interface StoriesFetchInitAction {
-  type: 'STORIES_FETCH_INIT';
+  type: "STORIES_FETCH_INIT";
 }
 
 interface StoriesFetchSuccessAction {
-  type: 'STORIES_FETCH_SUCCESS';
+  type: "STORIES_FETCH_SUCCESS";
   payload: Stories;
 }
 
 interface StoriesFetchFailureAction {
-  type: 'STORIES_FETCH_FAILURE';
+  type: "STORIES_FETCH_FAILURE";
 }
 
 interface StoriesRemoveAction {
-  type: 'REMOVE_STORY';
+  type: "REMOVE_STORY";
   payload: Story;
 }
 
@@ -63,32 +63,32 @@ type StoriesAction =
 
 const storiesReducer = (state: StoriesState, action: StoriesAction) => {
   switch (action.type) {
-    case 'STORIES_FETCH_INIT':
+    case "STORIES_FETCH_INIT":
       return {
         ...state,
         isLoading: true,
-        isError: false,
+        isError: false
       };
-    case 'STORIES_FETCH_SUCCESS':
+    case "STORIES_FETCH_SUCCESS":
       return {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload,
+        data: action.payload
       };
-    case 'STORIES_FETCH_FAILURE':
+    case "STORIES_FETCH_FAILURE":
       return {
         ...state,
         isLoading: false,
-        isError: true,
+        isError: true
       };
 
-    case 'REMOVE_STORY':
+    case "REMOVE_STORY":
       return {
         ...state,
         data: state.data.filter(
           (story) => action.payload.objectID !== story.objectID
-        ),
+        )
       };
     default:
       throw new Error();
@@ -96,29 +96,29 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
 };
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useSemiPersistentState('state', 'React');
+  const [searchTerm, setSearchTerm] = useSemiPersistentState("state", "React");
 
   const [url, setUrl] = React.useState(`${API_ENDPOINT}${searchTerm}`);
 
   const [stories, dispatchStories] = React.useReducer(storiesReducer, {
     data: [],
     isLoading: false,
-    isError: false,
+    isError: false
   });
 
   const handleFetchStories = React.useCallback(async () => {
-    dispatchStories({ type: 'STORIES_FETCH_INIT' });
+    dispatchStories({ type: "STORIES_FETCH_INIT" });
 
     try {
       const result = await axios.get(url);
 
       dispatchStories({
-        type: 'STORIES_FETCH_SUCCESS',
-        payload: result.data.hits,
+        type: "STORIES_FETCH_SUCCESS",
+        payload: result.data.hits
       });
     } catch {
       dispatchStories({
-        type: 'STORIES_FETCH_FAILURE',
+        type: "STORIES_FETCH_FAILURE"
       });
     }
   }, [url]);
@@ -129,8 +129,8 @@ const App = () => {
 
   const handleRemoveStory = (item: Story) => {
     dispatchStories({
-      type: 'REMOVE_STORY',
-      payload: item,
+      type: "REMOVE_STORY",
+      payload: item
     });
   };
 
@@ -184,7 +184,7 @@ type SearchFormProps = {
 const SearchForm = ({
   searchTerm,
   onSearchInput,
-  onSearchSubmit,
+  onSearchSubmit
 }: SearchFormProps) => (
   <form onSubmit={onSearchSubmit}>
     <InputWithLabel
@@ -213,10 +213,10 @@ type InputWithLabelProps = {
 const InputWithLabel = ({
   id,
   value,
-  type = 'text',
+  type = "text",
   onInputChange,
   isFocused,
-  children,
+  children
 }: InputWithLabelProps) => {
   const inputRef = React.useRef<HTMLInputElement>(null!);
 
@@ -259,13 +259,17 @@ type ItemProps = {
 const Item = ({ item, onRemoveItem }: ItemProps) => {
   const handleRemoveItem = () => {
     onRemoveItem(item);
-    console.log('Removed --> ' + item.title);
+    console.log("Removed --> " + item.title);
   };
 
   return (
     <div key={item.objectID} className="posts">
       <h4 className="title">
-        <button type="button" onClick={handleRemoveItem}>
+        <button
+          type="button"
+          onClick={handleRemoveItem}
+          data-testid="btn-element"
+        >
           <X height="15px" width="15px" className="x-btn" />
         </button>
         <a href={item.url}>{item.title}</a>
@@ -282,4 +286,4 @@ const Item = ({ item, onRemoveItem }: ItemProps) => {
 };
 
 export default App;
-export {SearchForm, List, Item, InputWithLabel}
+export { SearchForm, List, Item, InputWithLabel };
