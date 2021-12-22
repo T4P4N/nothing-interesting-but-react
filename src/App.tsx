@@ -268,14 +268,14 @@ const Item = ({ item, onRemoveItem }: ItemProps) => {
         <button
           type="button"
           onClick={handleRemoveItem}
-          data-testid="btn-element"
+          data-testid="remove-btn"
         >
           <X height="15px" width="15px" className="x-btn" />
         </button>
         <a href={item.url}>{item.title}</a>
       </h4>
 
-      <p className="author">
+      <p className="author" data-testid="author">
         <User size={14} /> {item.author}
       </p>
       <p className="points">
