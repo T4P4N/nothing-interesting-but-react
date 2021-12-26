@@ -64,15 +64,27 @@ const List = ({ data, onRemoveItem }: ListProps) => {
     setSort({ sortKey: sortKey, is_rev: isReverse });
   };
 
+  const handleClear = () => {
+    setSort({ sortKey: "NONE" });
+  };
   return (
     <>
+      {sort.sortKey != "NONE" ? (
+        <button className="rm-btn" onClick={() => handleClear()}>
+          Remove Filter
+        </button>
+      ) : (
+        <></>
+      )}
+
       <div className="filters">
-        {/* {sort.is_rev ? "class=sort-btn-des" : "class=sort-btn-asc"} */}
         <button
           className={
             !sort.is_rev && sort.sortKey === "TITLE"
-              ? "sort-btn"
-              : "sort-btn-des"
+              ? "sort-btn-active sort-btn-asc"
+              : sort.is_rev && sort.sortKey === "TITLE"
+              ? "sort-btn-active sort-btn-des"
+              : "sort-btn"
           }
           onClick={() => handleSbt("TITLE")}
         >
@@ -82,8 +94,10 @@ const List = ({ data, onRemoveItem }: ListProps) => {
         <button
           className={
             !sort.is_rev && sort.sortKey === "AUTHOR"
-              ? "sort-btn"
-              : "sort-btn-des"
+              ? "sort-btn-active sort-btn-asc"
+              : sort.is_rev && sort.sortKey === "AUTHOR"
+              ? "sort-btn-active sort-btn-des"
+              : "sort-btn"
           }
           onClick={() => handleSbt("AUTHOR")}
         >
@@ -93,8 +107,10 @@ const List = ({ data, onRemoveItem }: ListProps) => {
         <button
           className={
             !sort.is_rev && sort.sortKey === "POINT"
-              ? "sort-btn"
-              : "sort-btn-des"
+              ? "sort-btn-active sort-btn-asc"
+              : sort.is_rev && sort.sortKey === "POINT"
+              ? "sort-btn-active sort-btn-des"
+              : "sort-btn"
           }
           onClick={() => handleSbt("POINT")}
         >
@@ -104,8 +120,10 @@ const List = ({ data, onRemoveItem }: ListProps) => {
         <button
           className={
             !sort.is_rev && sort.sortKey === "COMMENT"
-              ? "sort-btn"
-              : "sort-btn-des"
+              ? "sort-btn-active sort-btn-asc"
+              : sort.is_rev && sort.sortKey === "COMMENT"
+              ? "sort-btn-active sort-btn-des"
+              : "sort-btn"
           }
           onClick={() => handleSbt("COMMENT")}
         >
