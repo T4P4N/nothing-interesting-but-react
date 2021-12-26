@@ -150,3 +150,21 @@ p.points {
 .x-btn:hover {
   color: crimson;
 }
+
+.filters {
+  /* padding: 0.5em 0.8em; */
+  /* background-color: rgb(17, 17, 17); */
+  margin-bottom: 1em;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  place-items: center;
+  gap: 10px;
+}
+
+.sort-btn {
+  font-size: 12pt;
+  font-family: "Exo 2";
+  font-weight: bolder;
+  text-transform: uppercase;
+}

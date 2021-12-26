@@ -1,7 +1,12 @@
 import React from "react";
 import axios from "axios";
-import { act } from "react-dom/test-utils";
-import { ChevronUp, User, X, Search, Heart } from "react-feather";
+// import { act } from "react-dom/test-utils";
+import { Heart } from "react-feather";
+// Prj files
+import List from "./List";
+import SearchForm from "./SearchForm";
+// import ExerciseOne from "./test";
+//
 
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
@@ -111,10 +116,12 @@ const App = () => {
 
     try {
       const result = await axios.get(url);
+      const d = result.data.hits;
 
       dispatchStories({
         type: "STORIES_FETCH_SUCCESS",
-        payload: result.data.hits
+        payload: d
+        // payload: _.sortBy(d, ["title"])
       });
     } catch {
       dispatchStories({
@@ -155,6 +162,7 @@ const App = () => {
       />
 
       <br />
+      {/* <ExerciseOne /> */}
 
       {stories.isError && <p>Something went wrong</p>}
 
@@ -174,116 +182,4 @@ const App = () => {
   );
 };
 
-type SearchFormProps = {
-  searchTerm: string;
-  onSearchInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  // what is void?????
-};
-
-const SearchForm = ({
-  searchTerm,
-  onSearchInput,
-  onSearchSubmit
-}: SearchFormProps) => (
-  <form onSubmit={onSearchSubmit}>
-    <InputWithLabel
-      id="search"
-      value={searchTerm}
-      isFocused
-      onInputChange={onSearchInput}
-    >
-      {/* <strong>Search:</strong> */}
-    </InputWithLabel>
-    <button type="submit" disabled={!searchTerm} className="search-btn">
-      <Search height="20px" width="20px" className="search-btn" />
-    </button>
-  </form>
-);
-
-type InputWithLabelProps = {
-  id: string;
-  value: string;
-  type?: string;
-  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  isFocused?: boolean;
-  children: React.ReactNode;
-};
-
-const InputWithLabel = ({
-  id,
-  value,
-  type = "text",
-  onInputChange,
-  isFocused,
-  children
-}: InputWithLabelProps) => {
-  const inputRef = React.useRef<HTMLInputElement>(null!);
-
-  React.useEffect(() => {
-    if (isFocused && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isFocused]);
-  // To fix these swiggly lines i think we gotta setup tsconfig
-  return (
-    <>
-      <label htmlFor={id}>{children}</label>
-      &nbsp;
-      <input id={id} type={type} value={value} onChange={onInputChange} />
-    </>
-  );
-};
-
-type ListProps = {
-  // list: Stories;
-  data: Stories;
-  onRemoveItem: (item: Story) => void;
-};
-
-const List = ({ data, onRemoveItem }: ListProps) => {
-  return (
-    <div>
-      {data.map((item) => (
-        <Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
-      ))}
-    </div>
-  );
-};
-
-type ItemProps = {
-  item: Story;
-  onRemoveItem: (item: Story) => void;
-};
-
-const Item = ({ item, onRemoveItem }: ItemProps) => {
-  const handleRemoveItem = () => {
-    onRemoveItem(item);
-    console.log("Removed --> " + item.title);
-  };
-
-  return (
-    <div key={item.objectID} className="posts">
-      <h4 className="title">
-        <button
-          type="button"
-          onClick={handleRemoveItem}
-          data-testid="remove-btn"
-        >
-          <X height="15px" width="15px" className="x-btn" />
-        </button>
-        <a href={item.url}>{item.title}</a>
-      </h4>
-
-      <p className="author" data-testid="author">
-        <User size={14} /> {item.author}
-      </p>
-      <p className="points">
-        <ChevronUp /> {item.points}
-      </p>
-    </div>
-  );
-};
-
 export default App;
-export { SearchForm, List, Item, InputWithLabel };
