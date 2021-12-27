@@ -108,9 +108,21 @@ const getUrl = (searchTerm) => `${API_ENDPOINT}${searchTerm}`;
 
 const getLastSearches = (urls) => {
   // uniq filters out the array for any dupes
-  return uniq(urls)
-    .slice(-5, -1)
+  console.log(urls);
+
+  // Somethings wrong here may found page 202?
+  var fixme = urls
+    // Slice it to last five ones but not including current one
+    // .slice(-5, -1)
+    .slice(-6)
+    .slice(0, -1)
     .map((url) => extractSearchTerm(url));
+
+  uniq(fixme);
+
+  console.log(fixme);
+
+  return fixme;
 };
 
 const App = () => {
@@ -159,9 +171,8 @@ const App = () => {
   };
 
   const handleSearch = (searchTerm) => {
-    const url = getUrl(searchTerm);
     setSearchTerm(searchTerm);
-
+    const url = getUrl(searchTerm);
     setUrls(urls.concat(url));
   };
 
@@ -170,10 +181,12 @@ const App = () => {
     handleSearch(searchTerm);
   };
   // .filter removes any empty strings present in array
-  const lastSearches = getLastSearches(urls).filter((n) => n.length >= 1);
+  // const lastSearches = getLastSearches(urls).filter((n) => n.length >= 1);
+  const lastSearches = getLastSearches(urls);
 
   const handleLastSearch = (searchTerm) => {
     handleSearch(searchTerm);
+    console.log();
   };
 
   return (
@@ -186,7 +199,7 @@ const App = () => {
         onSearchSubmit={handleSearchSubmit}
       />
       {/* Render only if user has searched once or more than once */}
-      {lastSearches.length >= 1 ? (
+      {lastSearches.length > 0 ? (
         <p className="recent-search">
           <span className="rs-head">Recent Searches:</span>
           {lastSearches.map((searchTerm, index) => (
@@ -216,7 +229,7 @@ const App = () => {
           <List data={stories.data} onRemoveItem={handleRemoveStory} />
         </div>
       )}
-      {/* Stick me bottom pls ^__^ */}
+      {/* Stick me to the bottom pls ^__^ */}
       <footer>
         <h3 className="footer">
           Made with <Heart /> by T4P4N
