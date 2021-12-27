@@ -199,3 +199,14 @@ p.points {
   background-color: rgb(45, 55, 66);
   border-radius: 10px;
 }
+
+.rs-btn {
+  text-transform: capitalize;
+  font-size: 10pt;
+  font-weight: bold;
+  background-color: rgb(45, 55, 66);
+  border-radius: 5px;
+}
+.rs-head {
+  font-weight: bolder;
+}

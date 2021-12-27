@@ -100,10 +100,17 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
   }
 };
 
+const extractSearchTerm = (url) => url.replace(API_ENDPOINT, "");
+
+const getUrl = (searchTerm) => `${API_ENDPOINT}${searchTerm}`;
+
+const getLastSearches = (urls) =>
+  urls.slice(-5).map((url) => extractSearchTerm(url));
+
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("state", "React");
 
-  const [url, setUrl] = React.useState(`${API_ENDPOINT}${searchTerm}`);
+  const [urls, setUrls] = React.useState([getUrl(searchTerm)]);
 
   const [stories, dispatchStories] = React.useReducer(storiesReducer, {
     data: [],
@@ -115,7 +122,8 @@ const App = () => {
     dispatchStories({ type: "STORIES_FETCH_INIT" });
 
     try {
-      const result = await axios.get(url);
+      const lastUrl = urls[urls.length - 1];
+      const result = await axios.get(lastUrl);
       const d = result.data.hits;
 
       dispatchStories({
@@ -128,7 +136,7 @@ const App = () => {
         type: "STORIES_FETCH_FAILURE"
       });
     }
-  }, [url]);
+  }, [urls]);
 
   React.useEffect(() => {
     handleFetchStories();
@@ -146,9 +154,25 @@ const App = () => {
   };
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    setUrl(`${API_ENDPOINT}${searchTerm}`);
-
+    // const url = `${API_ENDPOINT}${searchTerm}`;
+    // setUrls(urls.concat(url));
+    // setUrls([...urls, url]);
     event.preventDefault();
+    handleSearch(searchTerm);
+  };
+
+  const lastSearches = getLastSearches(urls);
+
+  const handleLastSearch = (searchTerm) => {
+    handleSearch(searchTerm);
+    // const url = `${API_ENDPOINT}${searchTerm}`;
+    // setUrls(urls.concat(url));
+  };
+
+  const handleSearch = (searchTerm) => {
+    const url = getUrl(searchTerm);
+    setSearchTerm(searchTerm);
+    setUrls(urls.concat(url));
   };
 
   return (
@@ -160,6 +184,19 @@ const App = () => {
         onSearchInput={handleSearchInput}
         onSearchSubmit={handleSearchSubmit}
       />
+      <p className="recent-search">
+        <span className="rs-head">Recent Searches:</span>
+        {lastSearches.map((searchTerm, index) => (
+          <button
+            className="rs-btn"
+            key={index}
+            type="button"
+            onClick={() => handleLastSearch(searchTerm)}
+          >
+            {searchTerm}
+          </button>
+        ))}
+      </p>
 
       <br />
       {/* <ExerciseOne /> */}
