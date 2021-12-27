@@ -101,14 +101,17 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
   }
 };
 
+// replaces API_ENDPOINT TO Empty strings
 const extractSearchTerm = (url) => url.replace(API_ENDPOINT, "");
 
 const getUrl = (searchTerm) => `${API_ENDPOINT}${searchTerm}`;
 
-const getLastSearches = (urls) =>
-  uniq(urls)
+const getLastSearches = (urls) => {
+  // uniq filters out the array for any dupes
+  return uniq(urls)
     .slice(-5, -1)
     .map((url) => extractSearchTerm(url));
+};
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("state", "");
@@ -127,12 +130,11 @@ const App = () => {
     try {
       const lastUrl = urls[urls.length - 1];
       const result = await axios.get(lastUrl);
-      const d = result.data.hits;
+      const rdh = result.data.hits;
 
       dispatchStories({
         type: "STORIES_FETCH_SUCCESS",
-        payload: d
-        // payload: _.sortBy(d, ["title"])
+        payload: rdh
       });
     } catch {
       dispatchStories({
@@ -164,19 +166,14 @@ const App = () => {
   };
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // const url = `${API_ENDPOINT}${searchTerm}`;
-    // setUrls(urls.concat(url));
-    // setUrls([...urls, url]);
     event.preventDefault();
     handleSearch(searchTerm);
   };
-
-  const lastSearches = getLastSearches(urls);
+  // .filter removes any empty strings present in array
+  const lastSearches = getLastSearches(urls).filter((n) => n.length >= 1);
 
   const handleLastSearch = (searchTerm) => {
     handleSearch(searchTerm);
-    // const url = `${API_ENDPOINT}${searchTerm}`;
-    // setUrls(urls.concat(url));
   };
 
   return (
@@ -188,19 +185,24 @@ const App = () => {
         onSearchInput={handleSearchInput}
         onSearchSubmit={handleSearchSubmit}
       />
-      <p className="recent-search">
-        <span className="rs-head">Recent Searches:</span>
-        {lastSearches.map((searchTerm, index) => (
-          <button
-            className="rs-btn"
-            key={index}
-            type="button"
-            onClick={() => handleLastSearch(searchTerm)}
-          >
-            {searchTerm}
-          </button>
-        ))}
-      </p>
+      {/* Render only if user has searched once or more than once */}
+      {lastSearches.length >= 1 ? (
+        <p className="recent-search">
+          <span className="rs-head">Recent Searches:</span>
+          {lastSearches.map((searchTerm, index) => (
+            <button
+              className="rs-btn"
+              key={index}
+              type="button"
+              onClick={() => handleLastSearch(searchTerm)}
+            >
+              {searchTerm}
+            </button>
+          ))}
+        </p>
+      ) : (
+        <></>
+      )}
 
       <br />
       {/* <ExerciseOne /> */}
@@ -214,6 +216,7 @@ const App = () => {
           <List data={stories.data} onRemoveItem={handleRemoveStory} />
         </div>
       )}
+      {/* Stick me bottom pls ^__^ */}
       <footer>
         <h3 className="footer">
           Made with <Heart /> by T4P4N
