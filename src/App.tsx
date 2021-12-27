@@ -118,11 +118,12 @@ const getLastSearches = (urls) => {
     .slice(0, -1)
     .map((url) => extractSearchTerm(url));
 
-  uniq(fixme);
+  var fixed = uniq(fixme);
 
-  console.log(fixme);
+  console.log("->>", fixme);
+  console.log("->>", fixed);
 
-  return fixme;
+  return fixed;
 };
 
 const App = () => {
@@ -181,8 +182,8 @@ const App = () => {
     handleSearch(searchTerm);
   };
   // .filter removes any empty strings present in array
-  // const lastSearches = getLastSearches(urls).filter((n) => n.length >= 1);
-  const lastSearches = getLastSearches(urls);
+  const lastSearches = getLastSearches(urls).filter((n) => n.length >= 1);
+  // const lastSearches = getLastSearches(urls);
 
   const handleLastSearch = (searchTerm) => {
     handleSearch(searchTerm);
