@@ -7,6 +7,7 @@ import List from "./List";
 import SearchForm from "./SearchForm";
 // import ExerciseOne from "./test";
 //
+import { uniq } from "lodash";
 
 const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
 
@@ -105,10 +106,12 @@ const extractSearchTerm = (url) => url.replace(API_ENDPOINT, "");
 const getUrl = (searchTerm) => `${API_ENDPOINT}${searchTerm}`;
 
 const getLastSearches = (urls) =>
-  urls.slice(-5).map((url) => extractSearchTerm(url));
+  uniq(urls)
+    .slice(-5, -1)
+    .map((url) => extractSearchTerm(url));
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useSemiPersistentState("state", "React");
+  const [searchTerm, setSearchTerm] = useSemiPersistentState("state", "");
 
   const [urls, setUrls] = React.useState([getUrl(searchTerm)]);
 
@@ -153,6 +156,13 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
+  const handleSearch = (searchTerm) => {
+    const url = getUrl(searchTerm);
+    setSearchTerm(searchTerm);
+
+    setUrls(urls.concat(url));
+  };
+
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     // const url = `${API_ENDPOINT}${searchTerm}`;
     // setUrls(urls.concat(url));
@@ -167,12 +177,6 @@ const App = () => {
     handleSearch(searchTerm);
     // const url = `${API_ENDPOINT}${searchTerm}`;
     // setUrls(urls.concat(url));
-  };
-
-  const handleSearch = (searchTerm) => {
-    const url = getUrl(searchTerm);
-    setSearchTerm(searchTerm);
-    setUrls(urls.concat(url));
   };
 
   return (
