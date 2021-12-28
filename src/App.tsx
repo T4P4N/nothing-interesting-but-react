@@ -107,24 +107,26 @@ const extractSearchTerm = (url) => url.replace(API_ENDPOINT, "");
 const getUrl = (searchTerm) => `${API_ENDPOINT}${searchTerm}`;
 
 const getLastSearches = (urls) => {
-  // uniq filters out the array for any dupes
-  console.log(urls);
+  return uniq(
+    urls
+      .reduce((result, url, index) => {
+        const searchTerm = extractSearchTerm(url);
 
-  // Somethings wrong here may found page 202?
-  // on fivevith time
-  var fixme = urls
-    // Slice it to last five ones but not including current one
-    .slice(-5, -1)
-    // .slice(-6)
-    // .slice(0, -1)
-    .map((url) => extractSearchTerm(url));
+        if (index === 0) {
+          return result.concat(searchTerm);
+        }
 
-  var fixed = uniq(fixme);
+        const previousSearchTerm = result[result.length - 1];
 
-  console.log("->>", fixme);
-  console.log("->>", fixed);
-
-  return fixed;
+        if (searchTerm === previousSearchTerm) {
+          return result;
+        } else {
+          return result.concat(searchTerm);
+        }
+      }, [])
+      .slice(-6)
+      .slice(0, -1)
+  );
 };
 
 const App = () => {
@@ -188,7 +190,6 @@ const App = () => {
 
   const handleLastSearch = (searchTerm) => {
     handleSearch(searchTerm);
-    console.log();
   };
 
   return (
