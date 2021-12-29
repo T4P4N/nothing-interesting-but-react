@@ -211,3 +211,17 @@ p.points {
   font-weight: bolder;
   display: inline-flex;
 }
+
+.more-btn {
+  text-transform: uppercase;
+  font-family: "Exo 2";
+  font-size: 14pt;
+  font-weight: 600;
+  padding: 0.8em 1em;
+  background-color: rgb(36, 36, 36);
+  border-radius: 5px;
+  transition: background-color 0.5s;
+}
+.more-btn:hover {
+  background-color: rgb(61, 61, 61);
+}

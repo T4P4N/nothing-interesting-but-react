@@ -9,7 +9,10 @@ import SearchForm from "./SearchForm";
 //
 import { uniq } from "lodash";
 
-const API_ENDPOINT = "https://hn.algolia.com/api/v1/search?query=";
+const API_BASE = "https://hn.algolia.com/api/v1/";
+const API_SEARCH = "/search";
+const PARAM_SEARCH = "query=";
+const PARAM_PAGE = "page=";
 
 const useSemiPersistentState = (
   key: string,
@@ -39,6 +42,7 @@ type Stories = Array<Story>;
 
 type StoriesState = {
   data: Stories;
+  page: Stories;
   isLoading: boolean;
   isError: boolean;
 };
@@ -80,7 +84,11 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload
+        data:
+          action.payload.page === 0
+            ? action.payload.list
+            : state.data.concat(action.payload.list),
+        page: action.payload.page
       };
     case "STORIES_FETCH_FAILURE":
       return {
@@ -102,9 +110,14 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
 };
 
 // replaces API_ENDPOINT TO Empty strings
-const extractSearchTerm = (url) => url.replace(API_ENDPOINT, "");
+const extractSearchTerm = (url) => {
+  return url
+    .substring(url.lastIndexOf("?") + 1, url.lastIndexOf("&"))
+    .replace(PARAM_SEARCH, "");
+};
 
-const getUrl = (searchTerm) => `${API_ENDPOINT}${searchTerm}`;
+const getUrl = (searchTerm, page) =>
+  `${API_BASE}${API_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`;
 
 const getLastSearches = (urls) => {
   return uniq(
@@ -132,10 +145,11 @@ const getLastSearches = (urls) => {
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("state", "");
 
-  const [urls, setUrls] = React.useState([getUrl(searchTerm)]);
+  const [urls, setUrls] = React.useState([getUrl(searchTerm, 0)]);
 
   const [stories, dispatchStories] = React.useReducer(storiesReducer, {
     data: [],
+    page: 0,
     isLoading: false,
     isError: false
   });
@@ -146,11 +160,13 @@ const App = () => {
     try {
       const lastUrl = urls[urls.length - 1];
       const result = await axios.get(lastUrl);
-      const rdh = result.data.hits;
 
       dispatchStories({
         type: "STORIES_FETCH_SUCCESS",
-        payload: rdh
+        payload: {
+          list: result.data.hits,
+          page: result.data.page
+        }
       });
     } catch {
       dispatchStories({
@@ -174,22 +190,32 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearch = (searchTerm) => {
+  const handleSearch = (searchTerm, page) => {
     setSearchTerm(searchTerm);
-    const url = getUrl(searchTerm);
+    const url = getUrl(searchTerm, page);
     setUrls(urls.concat(url));
+  };
+
+  const handleMore = () => {
+    // window.scrollTo({
+    //   top: 1000,
+    //   behavior: "smooth"
+    // });
+    const lastUrl = urls[urls.length - 1];
+    const searchTerm = extractSearchTerm(lastUrl);
+    handleSearch(searchTerm, stories.page + 1);
   };
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleSearch(searchTerm);
+    handleSearch(searchTerm, 0);
   };
   // .filter removes any empty strings present in array
   const lastSearches = getLastSearches(urls).filter((n) => n.length >= 1);
   // const lastSearches = getLastSearches(urls);
 
   const handleLastSearch = (searchTerm) => {
-    handleSearch(searchTerm);
+    handleSearch(searchTerm, 0);
   };
 
   return (
@@ -224,13 +250,17 @@ const App = () => {
       {/* <ExerciseOne /> */}
 
       {stories.isError && <p>Something went wrong</p>}
-
+      <div className="post-container">
+        <List data={stories.data} onRemoveItem={handleRemoveStory} />
+      </div>
       {stories.isLoading ? (
         <div className="lds-dual-ring"></div>
       ) : (
-        <div className="post-container">
-          <List data={stories.data} onRemoveItem={handleRemoveStory} />
-        </div>
+        <>
+          <button type="button" className="more-btn" onClick={handleMore}>
+            load more
+          </button>
+        </>
       )}
       {/* Stick me to the bottom pls ^__^ */}
       <footer>

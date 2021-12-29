@@ -18,3 +18,14 @@ const getLastSearches = (urls) => {
 
   return fixed;
 };
+
+// How things work in background
+// const extractSearchTerm = (url) => {
+//   const PARAM_SEARCH = 'query='
+//   return url // https://www.example.com/search?query=react&page=0
+//     .substring(url.lastIndexOf("?") + 1, url.lastIndexOf("&")) //query=react
+//     .replace(PARAM_SEARCH, ""); // react
+// };
+
+// var url = extractSearchTerm('https://www.example.com/search?query=HelloWorld&page=0');
+// console.log(url)
