@@ -28,7 +28,6 @@ const useSemiPersistentState = (
 
   return [value, setValue];
 };
-
 type Story = {
   objectID: string;
   url: string;
@@ -36,20 +35,16 @@ type Story = {
   author: string;
   num_comments: number;
   points: number;
-};
-
-type PandL = {
   page: number;
-  list: number;
-  Story: Array<Story>;
+  list: Array<Story>;
+  concat: any;
+  filter: any;
 };
-// type Stories = Array<PandL>;
 
 type StoriesState = {
-  data: PandL;
+  data: Story;
   isLoading: boolean;
   isError: boolean;
-  page: number;
 };
 
 interface StoriesFetchInitAction {
@@ -58,7 +53,7 @@ interface StoriesFetchInitAction {
 
 interface StoriesFetchSuccessAction {
   type: "STORIES_FETCH_SUCCESS";
-  payload: Array<PandL>;
+  payload: Story;
 }
 
 interface StoriesFetchFailureAction {
@@ -106,25 +101,26 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
       return {
         ...state,
         data: state.data.filter(
-          (story) => action.payload.objectID !== story.objectID
+          (story: Story) => action.payload.objectID !== story.objectID
         )
       };
+
     default:
       throw new Error();
   }
 };
 
 // replaces API_ENDPOINT TO Empty strings
-const extractSearchTerm = (url) => {
+const extractSearchTerm = (url: string) => {
   return url
     .substring(url.lastIndexOf("?") + 1, url.lastIndexOf("&"))
     .replace(PARAM_SEARCH, "");
 };
 
-const getUrl = (searchTerm, page) =>
+const getUrl = (searchTerm: any, page: number) =>
   `${API_BASE}${API_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`;
 
-const getLastSearches = (urls) => {
+const getLastSearches = (urls: Array<any>) => {
   return uniq(
     urls
       .reduce((result, url, index) => {
@@ -195,7 +191,7 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearch = (searchTerm, page) => {
+  const handleSearch = (searchTerm: any, page: any) => {
     setSearchTerm(searchTerm);
     const url = getUrl(searchTerm, page);
     setUrls(urls.concat(url));
@@ -216,10 +212,10 @@ const App = () => {
     handleSearch(searchTerm, 0);
   };
   // .filter removes any empty strings present in array
-  const lastSearches = getLastSearches(urls).filter((n) => n.length >= 1);
+  const lastSearches = getLastSearches(urls).filter((n: any) => n.length >= 1);
   // const lastSearches = getLastSearches(urls);
 
-  const handleLastSearch = (searchTerm) => {
+  const handleLastSearch = (searchTerm: any) => {
     handleSearch(searchTerm, 0);
   };
 
@@ -236,7 +232,7 @@ const App = () => {
       {lastSearches.length > 0 ? (
         <p className="recent-search">
           <span className="rs-head">Recent Searches:</span>
-          {lastSearches.map((searchTerm, index) => (
+          {lastSearches.map((searchTerm: string, index) => (
             <button
               className="rs-btn"
               key={index}
