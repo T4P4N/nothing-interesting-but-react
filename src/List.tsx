@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowUp, ArrowDown, ChevronUp, User, X } from "react-feather";
+import { ChevronUp, User, X } from "react-feather";
 import { sortBy } from "lodash";
 
 type ItemProps = {
@@ -69,7 +69,7 @@ const List = ({ data, onRemoveItem }: ListProps) => {
   };
   return (
     <>
-      {sort.sortKey != "NONE" ? (
+      {sort.sortKey !== "NONE" ? (
         <button className="rm-btn" onClick={() => handleClear()}>
           Remove Filter
         </button>

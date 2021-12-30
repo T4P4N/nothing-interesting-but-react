@@ -38,13 +38,18 @@ type Story = {
   points: number;
 };
 
-type Stories = Array<Story>;
+type PandL = {
+  page: number;
+  list: number;
+  Story: Array<Story>;
+};
+// type Stories = Array<PandL>;
 
 type StoriesState = {
-  data: Stories;
-  page: Stories;
+  data: PandL;
   isLoading: boolean;
   isError: boolean;
+  page: number;
 };
 
 interface StoriesFetchInitAction {
@@ -53,7 +58,7 @@ interface StoriesFetchInitAction {
 
 interface StoriesFetchSuccessAction {
   type: "STORIES_FETCH_SUCCESS";
-  payload: Stories;
+  payload: Array<PandL>;
 }
 
 interface StoriesFetchFailureAction {
@@ -250,16 +255,21 @@ const App = () => {
       {/* <ExerciseOne /> */}
 
       {stories.isError && <p>Something went wrong</p>}
-      <div className="post-container">
-        <List data={stories.data} onRemoveItem={handleRemoveStory} />
-      </div>
+
       {stories.isLoading ? (
         <div className="lds-dual-ring"></div>
       ) : (
         <>
-          <button type="button" className="more-btn" onClick={handleMore}>
-            load more
-          </button>
+          <div className="post-container">
+            <List data={stories.data} onRemoveItem={handleRemoveStory} />
+          </div>
+          {stories.isLoading ? (
+            <div className="lds-dual-ring"></div>
+          ) : (
+            <button type="button" className="more-btn" onClick={handleMore}>
+              load more
+            </button>
+          )}
         </>
       )}
       {/* Stick me to the bottom pls ^__^ */}
