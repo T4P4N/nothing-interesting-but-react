@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import axios from "axios";
 // import { act } from "react-dom/test-utils";
 import { Heart } from "react-feather";
@@ -42,6 +42,8 @@ type Story = {
 };
 
 type StoriesState = {
+  page: number;
+  list?: Story;
   data: Story;
   isLoading: boolean;
   isError: boolean;
