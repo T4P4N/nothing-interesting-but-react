@@ -55,7 +55,7 @@ interface StoriesFetchInitAction {
 
 interface StoriesFetchSuccessAction {
   type: "STORIES_FETCH_SUCCESS";
-  payload: Story;
+  payload: Story | any;
 }
 
 interface StoriesFetchFailureAction {
