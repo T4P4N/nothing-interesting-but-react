@@ -1,14 +1,7 @@
-import React from "react";
+import * as React from "react";
 import { Search } from "react-feather";
-
+import { SearchFormProps } from "./Story";
 import InputWithLabel from "./InputWithLabel";
-
-type SearchFormProps = {
-  searchTerm: string;
-  onSearchInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  // what is void?????
-};
 
 const SearchForm = ({
   searchTerm,

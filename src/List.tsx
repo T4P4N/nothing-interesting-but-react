@@ -1,7 +1,8 @@
 import * as React from "react";
 import { ChevronUp, User, X } from "react-feather";
 import { sortBy } from "lodash";
-import { Story } from "./Story";
+import { Story, ListProps } from "./Story";
+
 type ItemProps = {
   item: Story;
   onRemoveItem: (item: Story) => void;
@@ -34,12 +35,6 @@ const Item = ({ item, onRemoveItem }: ItemProps) => {
       </p>
     </div>
   );
-};
-
-type ListProps = {
-  list: Story[];
-  data: Story[];
-  onRemoveItem: (item: Story) => void;
 };
 
 const List = ({ data, onRemoveItem }: ListProps) => {

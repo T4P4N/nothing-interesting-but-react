@@ -1,3 +1,4 @@
+import * as React from "react";
 import { render } from "react-dom";
 import "/src/styles.css";
 import App from "./App";

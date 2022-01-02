@@ -10,3 +10,16 @@ export type Story = {
   concat: any;
   filter: any;
 };
+
+export type ListProps = {
+  list?: Story;
+  data: Story[];
+  onRemoveItem: (item: Story) => void;
+};
+
+export type SearchFormProps = {
+  searchTerm: string;
+  onSearchInput: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  // what is void?????
+};
