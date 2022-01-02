@@ -1,7 +1,7 @@
-import React from "react";
+import * as React from "react";
 import { ChevronUp, User, X } from "react-feather";
 import { sortBy } from "lodash";
-
+import { Story } from "./Story";
 type ItemProps = {
   item: Story;
   onRemoveItem: (item: Story) => void;
@@ -37,8 +37,8 @@ const Item = ({ item, onRemoveItem }: ItemProps) => {
 };
 
 type ListProps = {
-  // list: Stories;
-  data: Stories;
+  list: Story[];
+  data: Story[];
   onRemoveItem: (item: Story) => void;
 };
 
@@ -47,11 +47,11 @@ const List = ({ data, onRemoveItem }: ListProps) => {
   const [sort, setSort] = React.useState({ sortKey: "NONE", is_rev: false });
   // Sorting
   const SORTS = {
-    NONE: (list) => list,
-    TITLE: (list) => sortBy(list, "title"),
-    AUTHOR: (list) => sortBy(list, "author"),
-    COMMENT: (list) => sortBy(list, "num_comments").reverse(),
-    POINT: (list) => sortBy(list, "points").reverse()
+    NONE: (list: Story) => list,
+    TITLE: (list: Story) => sortBy(list, "title"),
+    AUTHOR: (list: Story) => sortBy(list, "author"),
+    COMMENT: (list: Story) => sortBy(list, "num_comments").reverse(),
+    POINT: (list: Story) => sortBy(list, "points").reverse()
   };
 
   const sortFunction = SORTS[sort.sortKey];
@@ -59,13 +59,13 @@ const List = ({ data, onRemoveItem }: ListProps) => {
     ? sortFunction(data).reverse()
     : sortFunction(data);
 
-  const handleSbt = (sortKey) => {
+  const handleSbt = (sortKey: string) => {
     const isReverse = sort.sortKey === sortKey && !sort.is_rev;
     setSort({ sortKey: sortKey, is_rev: isReverse });
   };
 
   const handleClear = () => {
-    setSort({ sortKey: "NONE" });
+    setSort({ sortKey: "", is_rev: false });
   };
   return (
     <>
@@ -131,7 +131,7 @@ const List = ({ data, onRemoveItem }: ListProps) => {
         </button>
       </div>
 
-      {sortedList.map((item: object) => (
+      {sortedList.map((item: Story) => (
         <Item key={item.objectID} item={item} onRemoveItem={onRemoveItem} />
       ))}
     </>
