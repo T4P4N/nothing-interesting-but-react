@@ -259,22 +259,24 @@ const App = () => {
       {stories.isLoading ? (
         <div className="post-container">
           <Shimmer />
+          <Shimmer />
+          <Shimmer />
+          <Shimmer />
+          <Shimmer />
         </div>
       ) : (
         <>
           <div className="post-container">
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            <Shimmer />
-            {/* <List data={stories.data} onRemoveItem={handleRemoveStory} /> */}
+            <List data={stories.data} onRemoveItem={handleRemoveStory} />
           </div>
           {stories.isLoading ? (
-            <div className=""></div>
+            <div className="post-container">
+              <Shimmer />
+              <Shimmer />
+              <Shimmer />
+              <Shimmer />
+              <Shimmer />
+            </div>
           ) : (
             <button type="button" className="more-btn" onClick={handleMore}>
               load more

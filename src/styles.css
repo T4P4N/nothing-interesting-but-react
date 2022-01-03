@@ -295,5 +295,7 @@ p.points {
 }
 
 .post-container {
-  width: 100%;
+  width: min(50rem, 100%);
+  display: flex;
+  flex-direction: column;
 }
