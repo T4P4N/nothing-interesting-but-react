@@ -263,7 +263,15 @@ const App = () => {
       ) : (
         <>
           <div className="post-container">
-            <List data={stories.data} onRemoveItem={handleRemoveStory} />
+            <Shimmer />
+            <Shimmer />
+            <Shimmer />
+            <Shimmer />
+            <Shimmer />
+            <Shimmer />
+            <Shimmer />
+            <Shimmer />
+            {/* <List data={stories.data} onRemoveItem={handleRemoveStory} /> */}
           </div>
           {stories.isLoading ? (
             <div className=""></div>
