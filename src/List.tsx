@@ -60,7 +60,7 @@ const List = ({ data, onRemoveItem }: ListProps) => {
   };
 
   const handleClear = () => {
-    setSort({ sortKey: "", is_rev: false });
+    setSort({ sortKey: "NONE", is_rev: false });
   };
   return (
     <>

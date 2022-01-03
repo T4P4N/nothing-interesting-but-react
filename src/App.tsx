@@ -1,7 +1,7 @@
 import * as React from "react";
 import axios from "axios";
 // import { act } from "react-dom/test-utils";
-import { Heart } from "react-feather";
+import { Heart, User, X, ChevronUp } from "react-feather";
 // Prj files
 import List from "./List";
 import SearchForm from "./SearchForm";
@@ -214,7 +214,9 @@ const App = () => {
     handleSearch(searchTerm, 0);
   };
   // .filter removes any empty strings present in array
-  const lastSearches = getLastSearches(urls).filter((n: any) => n.length >= 1);
+  const lastSearches: Array<any> = getLastSearches(urls).filter(
+    (n: any) => n.length >= 1
+  );
   // const lastSearches = getLastSearches(urls);
 
   const handleLastSearch = (searchTerm: any) => {
@@ -255,14 +257,16 @@ const App = () => {
       {stories.isError && <p>Something went wrong</p>}
 
       {stories.isLoading ? (
-        <div className="lds-dual-ring"></div>
+        <div className="post-container">
+          <Shimmer />
+        </div>
       ) : (
         <>
           <div className="post-container">
             <List data={stories.data} onRemoveItem={handleRemoveStory} />
           </div>
           {stories.isLoading ? (
-            <div className="lds-dual-ring"></div>
+            <div className=""></div>
           ) : (
             <button type="button" className="more-btn" onClick={handleMore}>
               load more
@@ -276,6 +280,19 @@ const App = () => {
           Made with <Heart /> by T4P4N
         </h3>
       </footer>
+    </div>
+  );
+};
+
+const Shimmer = () => {
+  return (
+    <div className="shimmer-posts" key={Math.random(100, 10000)}>
+      <h4 className="shimmer-title shimmer">111</h4>
+
+      <p className="shimmer-author shimmer" data-testid="author">
+        000
+      </p>
+      <p className="shimmer-points shimmer">000</p>
     </div>
   );
 };
