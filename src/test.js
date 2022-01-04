@@ -29,3 +29,29 @@ const getLastSearches = (urls) => {
 
 // var url = extractSearchTerm('https://www.example.com/search?query=HelloWorld&page=0');
 // console.log(url)
+
+<div className="post-container">
+  <List data={stories.data} onRemoveItem={handleRemoveStory} />
+</div>;
+
+{
+  stories.isLoading && !stories.hasMoreLoading ? (
+    <div className="post-container">
+      <Shimmer idx={1} />
+      {/* [1,2,3,4,5].map((index) => <Shimmer idx={index} />) */}
+    </div>
+  ) : (
+    <>
+      <div className="post-container">
+        <List data={stories.data} onRemoveItem={handleRemoveStory} />
+      </div>
+      {stories.hasMoreLoading ? (
+        <div className="post-container">has more true</div>
+      ) : (
+        <button type="button" className="more-btn" onClick={handleMore}>
+          load more
+        </button>
+      )}
+    </>
+  );
+}

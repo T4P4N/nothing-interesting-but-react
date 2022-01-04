@@ -47,6 +47,7 @@ type StoriesState = {
   data: Story;
   isLoading: boolean;
   isError: boolean;
+  hasMoreLoading: boolean;
 };
 
 interface StoriesFetchInitAction {
@@ -79,6 +80,7 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
       return {
         ...state,
         isLoading: true,
+        hasMoreLoading: false,
         isError: false
       };
     case "STORIES_FETCH_SUCCESS":
@@ -90,7 +92,8 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
           action.payload.page === 0
             ? action.payload.list
             : state.data.concat(action.payload.list),
-        page: action.payload.page
+        page: action.payload.page,
+        hasMoreLoading: false
       };
     case "STORIES_FETCH_FAILURE":
       return {
@@ -149,11 +152,12 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("state", "");
 
   const [urls, setUrls] = React.useState([getUrl(searchTerm, 0)]);
-
+  const [hasMoreLoading, setHasMoreLoading] = React.useState(false);
   const [stories, dispatchStories] = React.useReducer(storiesReducer, {
     data: [],
     page: 0,
     isLoading: false,
+    hasMoreLoading: false,
     isError: false
   });
 
@@ -200,13 +204,12 @@ const App = () => {
   };
 
   const handleMore = () => {
-    // window.scrollTo({
-    //   top: 1000,
-    //   behavior: "smooth"
-    // });
+    console.log("first -->", hasMoreLoading);
+    setHasMoreLoading(true);
     const lastUrl = urls[urls.length - 1];
     const searchTerm = extractSearchTerm(lastUrl);
     handleSearch(searchTerm, stories.page + 1);
+    console.log("second -->", hasMoreLoading);
   };
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -252,37 +255,43 @@ const App = () => {
       )}
 
       <br />
-      {/* <ExerciseOne /> */}
 
       {stories.isError && <p>Something went wrong</p>}
+      {stories.isLoading ? (
+        <div className="post-container">
+          <Shimmer idx={1} />
+          <Shimmer idx={2} />
+          <Shimmer idx={3} />
+          <Shimmer idx={4} />
+          <Shimmer idx={5} />
+        </div>
+      ) : (
+        <></>
+      )}
+
+      <div className="post-container">
+        <List data={stories.data} onRemoveItem={handleRemoveStory} />
+      </div>
+      {stories.isLoading ? (
+        <></>
+      ) : (
+        <>
+          <button type="button" className="more-btn" onClick={handleMore}>
+            load more
+          </button>
+        </>
+      )}
 
       {stories.isLoading ? (
         <div className="post-container">
-          <Shimmer />
-          <Shimmer />
-          <Shimmer />
-          <Shimmer />
-          <Shimmer />
+          <Shimmer idx={1} />
+          <Shimmer idx={2} />
+          <Shimmer idx={3} />
+          <Shimmer idx={4} />
+          <Shimmer idx={5} />
         </div>
       ) : (
-        <>
-          <div className="post-container">
-            <List data={stories.data} onRemoveItem={handleRemoveStory} />
-          </div>
-          {stories.isLoading ? (
-            <div className="post-container">
-              <Shimmer />
-              <Shimmer />
-              <Shimmer />
-              <Shimmer />
-              <Shimmer />
-            </div>
-          ) : (
-            <button type="button" className="more-btn" onClick={handleMore}>
-              load more
-            </button>
-          )}
-        </>
+        <></>
       )}
       {/* Stick me to the bottom pls ^__^ */}
       <footer>
@@ -294,9 +303,9 @@ const App = () => {
   );
 };
 
-const Shimmer = () => {
+const Shimmer = (idx: number) => {
   return (
-    <div className="shimmer-posts" key={Math.random(100, 10000)}>
+    <div className="shimmer-posts" key={idx}>
       <h4 className="shimmer-title shimmer">111</h4>
 
       <p className="shimmer-author shimmer" data-testid="author">
