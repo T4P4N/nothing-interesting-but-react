@@ -5,6 +5,7 @@ import { Heart, User, X, ChevronUp } from "react-feather";
 // Prj files
 import List from "./List";
 import SearchForm from "./SearchForm";
+import Shimmer from "./Shimmer";
 // import ExerciseOne from "./test";
 //
 import { uniq } from "lodash";
@@ -47,7 +48,6 @@ type StoriesState = {
   data: Story;
   isLoading: boolean;
   isError: boolean;
-  hasMoreLoading: boolean;
 };
 
 interface StoriesFetchInitAction {
@@ -80,7 +80,6 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
       return {
         ...state,
         isLoading: true,
-        hasMoreLoading: false,
         isError: false
       };
     case "STORIES_FETCH_SUCCESS":
@@ -92,8 +91,7 @@ const storiesReducer = (state: StoriesState, action: StoriesAction) => {
           action.payload.page === 0
             ? action.payload.list
             : state.data.concat(action.payload.list),
-        page: action.payload.page,
-        hasMoreLoading: false
+        page: action.payload.page
       };
     case "STORIES_FETCH_FAILURE":
       return {
@@ -152,12 +150,10 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("state", "");
 
   const [urls, setUrls] = React.useState([getUrl(searchTerm, 0)]);
-  const [hasMoreLoading, setHasMoreLoading] = React.useState(false);
   const [stories, dispatchStories] = React.useReducer(storiesReducer, {
     data: [],
     page: 0,
     isLoading: false,
-    hasMoreLoading: false,
     isError: false
   });
 
@@ -204,12 +200,9 @@ const App = () => {
   };
 
   const handleMore = () => {
-    console.log("first -->", hasMoreLoading);
-    setHasMoreLoading(true);
     const lastUrl = urls[urls.length - 1];
     const searchTerm = extractSearchTerm(lastUrl);
     handleSearch(searchTerm, stories.page + 1);
-    console.log("second -->", hasMoreLoading);
   };
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -299,19 +292,6 @@ const App = () => {
           Made with <Heart /> by T4P4N
         </h3>
       </footer>
-    </div>
-  );
-};
-
-const Shimmer = (idx: number) => {
-  return (
-    <div className="shimmer-posts" key={idx}>
-      <h4 className="shimmer-title shimmer">111</h4>
-
-      <p className="shimmer-author shimmer" data-testid="author">
-        000
-      </p>
-      <p className="shimmer-points shimmer">000</p>
     </div>
   );
 };
