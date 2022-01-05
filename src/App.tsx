@@ -1,7 +1,7 @@
 import * as React from "react";
 import axios from "axios";
 // import { act } from "react-dom/test-utils";
-import { Heart, User, X, ChevronUp } from "react-feather";
+import { Heart } from "react-feather";
 // Prj files
 import List from "./List";
 import SearchForm from "./SearchForm";
@@ -248,16 +248,9 @@ const App = () => {
       )}
 
       <br />
-
       {stories.isError && <p>Something went wrong</p>}
       {stories.isLoading ? (
-        <div className="post-container">
-          <Shimmer idx={1} />
-          <Shimmer idx={2} />
-          <Shimmer idx={3} />
-          <Shimmer idx={4} />
-          <Shimmer idx={5} />
-        </div>
+        [1, 2, 3, 4, 5].map((n) => <Shimmer key={n} />)
       ) : (
         <></>
       )}
@@ -276,13 +269,7 @@ const App = () => {
       )}
 
       {stories.isLoading ? (
-        <div className="post-container">
-          <Shimmer idx={1} />
-          <Shimmer idx={2} />
-          <Shimmer idx={3} />
-          <Shimmer idx={4} />
-          <Shimmer idx={5} />
-        </div>
+        [1, 2, 3, 4, 5].map((n) => <Shimmer key={n} />)
       ) : (
         <></>
       )}
